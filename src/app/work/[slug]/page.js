@@ -10,8 +10,6 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import { projects } from "@/data/projects";
 import { createMetadata } from "@/lib/seo";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return projects.map((project) => ({
     slug: project.slug,

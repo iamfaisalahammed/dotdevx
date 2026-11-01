@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { navigation } from "@/config/navigation";
+import SectionBackground from "@/components/motion/SectionBackground";
 
 const services = [
   "Business Website",
@@ -16,7 +17,10 @@ export default function Footer() {
   );
 
   return (
-    <footer className="border-t border-white/[0.08] bg-[#08090B] text-white">
+    <footer className="relative isolate overflow-hidden border-t border-white/[0.08] bg-[#08090B] text-white">
+      {/* Hero-র মতো animated tech background */}
+      <SectionBackground />
+
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
@@ -25,7 +29,7 @@ export default function Footer() {
               href="/"
               className="text-2xl font-bold tracking-tight"
             >
-              DotDev<span className="text-[#2BFF88]">X</span>
+              DotDev<span className="text-[#4F83FF]">X</span>
             </Link>
 
             <p className="mt-5 max-w-xs text-sm leading-7 text-white/55">
@@ -40,7 +44,7 @@ export default function Footer() {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm capitalize text-white/55 transition-colors hover:text-[#2BFF88]"
+                    className="text-sm capitalize text-white/55 transition-colors hover:text-[#75A0FF]"
                   >
                     {name}
                   </a>
@@ -60,7 +64,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-white/55 transition-colors hover:text-[#2BFF88]"
+                    className="inline-block text-sm text-white/55 transition-all duration-300 hover:translate-x-1 hover:text-[#75A0FF]"
                   >
                     {item.name}
                   </Link>
@@ -80,7 +84,7 @@ export default function Footer() {
                 <li key={service}>
                   <Link
                     href="/services"
-                    className="text-sm text-white/55 transition-colors hover:text-[#2BFF88]"
+                    className="inline-block text-sm text-white/55 transition-all duration-300 hover:translate-x-1 hover:text-[#75A0FF]"
                   >
                     {service}
                   </Link>
@@ -99,7 +103,7 @@ export default function Footer() {
               {siteConfig.contact.email && (
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="block transition-colors hover:text-[#2BFF88]"
+                  className="block transition-colors hover:text-[#75A0FF]"
                 >
                   {siteConfig.contact.email}
                 </a>
@@ -108,7 +112,7 @@ export default function Footer() {
               {siteConfig.contact.phone && (
                 <a
                   href={`tel:${siteConfig.contact.phone}`}
-                  className="block transition-colors hover:text-[#2BFF88]"
+                  className="block transition-colors hover:text-[#75A0FF]"
                 >
                   {siteConfig.contact.phone}
                 </a>
@@ -120,10 +124,15 @@ export default function Footer() {
 
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 font-semibold text-[#2BFF88]"
+                className="group inline-flex items-center gap-2 font-semibold text-[#4F83FF] transition-colors hover:text-[#75A0FF]"
               >
                 Start a Project
-                <span aria-hidden="true">↗</span>
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                >
+                  ↗
+                </span>
               </Link>
             </div>
           </div>
@@ -132,20 +141,20 @@ export default function Footer() {
         {/* Bottom Footer */}
         <div className="mt-16 flex flex-col gap-5 border-t border-white/[0.08] pt-7 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-white/40">
-          © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+            © 2026 {siteConfig.name}. All rights reserved.
           </p>
 
           <div className="flex flex-wrap gap-5 text-xs text-white/45">
             <Link
               href="/privacy-policy"
-              className="transition-colors hover:text-[#2BFF88]"
+              className="transition-colors hover:text-[#75A0FF]"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/terms"
-              className="transition-colors hover:text-[#2BFF88]"
+              className="transition-colors hover:text-[#75A0FF]"
             >
               Terms & Conditions
             </Link>

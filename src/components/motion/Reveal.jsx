@@ -1,57 +1,16 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 
-const directions = {
-  up: { y: 24 },
-  down: { y: -24 },
-  left: { x: 24 },
-  right: { x: -24 },
-};
-
-export default function Reveal({
-  children,
-  className = "",
-  direction = "up",
-  delay = 0,
-  duration = 0.6,
-  distance = 24,
-  once = true,
-  amount = 0.2,
-}) {
-  const shouldReduceMotion = useReducedMotion();
-
-  const offset = directions[direction] || directions.up;
-
-  const initialPosition = {
-    opacity: 0,
-    ...(offset.x !== undefined
-      ? { x: offset.x > 0 ? distance : -distance }
-      : {}),
-    ...(offset.y !== undefined
-      ? { y: offset.y > 0 ? distance : -distance }
-      : {}),
-  };
-
+// স্ক্রলে সেকশনের অংশ নিচ থেকে ভেসে উঠবে (একবারই চলবে)
+export default function Reveal({ children, delay = 0, className = "" }) {
   return (
     <motion.div
-      className={cn(className)}
-      initial={shouldReduceMotion ? false : initialPosition}
-      whileInView={
-        shouldReduceMotion
-          ? undefined
-          : { opacity: 1, x: 0, y: 0 }
-      }
-      viewport={{
-        once,
-        amount,
-      }}
-      transition={{
-        duration: shouldReduceMotion ? 0 : duration,
-        delay: shouldReduceMotion ? 0 : delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+      initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
     >
       {children}
     </motion.div>

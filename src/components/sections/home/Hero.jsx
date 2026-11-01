@@ -194,17 +194,17 @@ function CodeWindow() {
     return () => clearTimeout(timer);
   }, [typed, phase, totalChars]);
 
-  // প্রতিটি লাইনে কতগুলো অক্ষর দেখাবে
-  let left = typed;
-  const visible = lineLengths.map((len) => {
-    const show = Math.max(0, Math.min(len, left));
-    left -= len;
-    return show;
+  // প্রতিটি লাইনে কতগুলো অক্ষর দেখাবে (কোনো ভ্যারিয়েবল না বদলিয়ে)
+  const visible = lineLengths.map((len, i) => {
+    // এই লাইনের আগের সব লাইনের মোট অক্ষর
+    const before = lineLengths.slice(0, i).reduce((a, b) => a + b, 0);
+    return Math.max(0, Math.min(len, typed - before));
   });
 
   // কার্সর কোন লাইনে থাকবে
-  let activeLine = visible.findIndex((v, i) => v < lineLengths[i]);
-  if (activeLine === -1) activeLine = snippet.lines.length - 1;
+  const firstIncomplete = visible.findIndex((v, i) => v < lineLengths[i]);
+  const activeLine =
+    firstIncomplete === -1 ? snippet.lines.length - 1 : firstIncomplete;
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0C0E10] shadow-2xl shadow-black/40">

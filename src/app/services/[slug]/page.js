@@ -1,11 +1,8 @@
-
 import { notFound } from "next/navigation";
 
 import { services } from "@/data/services";
 import ServiceDetails from "@/components/services/ServiceDetails";
 import { createMetadata } from "@/lib/seo";
-
-export const dynamicParams = false;
 
 export function generateStaticParams() {
   return services.map((service) => ({

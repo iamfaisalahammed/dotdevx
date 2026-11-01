@@ -9,7 +9,7 @@ import {
 
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Reveal from "@/components/motion/Reveal";
+import SectionBackground from "@/components/motion/SectionBackground";
 
 const reasons = [
   {
@@ -52,36 +52,38 @@ const reasons = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="border-t border-white/[0.06] bg-[#0C0E10] py-24 sm:py-28">
+    <section className="relative isolate overflow-hidden border-t border-white/[0.06] bg-[#0C0E10] py-24 sm:py-28">
+      {/* Hero-র মতো animated tech background */}
+      <SectionBackground />
+
       <Container>
-        <Reveal>
-          <SectionHeading
-            eyebrow="Why DotDevX"
-            title="More than just a website."
-            description="We combine thoughtful design, modern development, and a business-focused approach to create meaningful digital experiences."
-          />
-        </Reveal>
+        <SectionHeading
+          eyebrow="Why DotDevX"
+          title="More than just a website."
+          description="We combine thoughtful design, modern development, and a business-focused approach to create meaningful digital experiences."
+        />
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {reasons.map((reason, index) => {
+          {reasons.map((reason) => {
             const Icon = reason.icon;
 
             return (
-              <Reveal key={reason.title} delay={index * 0.06}>
-                <article className="group h-full rounded-2xl border border-white/10 bg-[#111417] p-6 transition-all duration-300 hover:border-[#2BFF88]/30 hover:bg-[#14191A] sm:p-7">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2BFF88]/15 bg-[#2BFF88]/10 text-[#2BFF88] transition-colors group-hover:bg-[#2BFF88] group-hover:text-[#04120A]">
-                    <Icon size={22} />
-                  </div>
+              <article
+                key={reason.title}
+                className="group h-full rounded-2xl border border-white/10 bg-[#111417]/90 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#4F83FF]/40 hover:shadow-lg hover:shadow-[#4F83FF]/10 sm:p-7"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#4F83FF]/15 bg-[#4F83FF]/10 text-[#4F83FF] transition-colors group-hover:bg-[#4F83FF] group-hover:text-white">
+                  <Icon size={22} />
+                </div>
 
-                  <h3 className="mt-6 text-lg font-semibold text-white">
-                    {reason.title}
-                  </h3>
+                <h3 className="mt-6 text-lg font-semibold text-white">
+                  {reason.title}
+                </h3>
 
-                  <p className="mt-3 text-sm leading-7 text-white/55">
-                    {reason.description}
-                  </p>
-                </article>
-              </Reveal>
+                <p className="mt-3 text-sm leading-7 text-white/55">
+                  {reason.description}
+                </p>
+              </article>
             );
           })}
         </div>
