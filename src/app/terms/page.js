@@ -1,55 +1,44 @@
 
 import Container from "@/components/ui/Container";
-import SectionHeading from "@/components/ui/SectionHeading";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
   title: "Terms and Conditions",
   description:
-    "Read the general terms for using the DotDevX website and discussing our services.",
+    "Read the terms for using the .DevX website and services.",
   path: "/terms",
 });
 
 const sections = [
   {
-    title: "Website Information",
+    title: "Website Use",
     content:
-      "The content on this website is provided for general information about DotDevX and its services. Service descriptions may be updated as our offerings evolve.",
+      "This website provides general information about .DevX and its services. You agree to use it responsibly and lawfully.",
   },
   {
     title: "Project Agreements",
     content:
-      "Every project should have an agreed scope, deliverables, timeline, pricing, payment arrangements, and responsibilities before development begins. The specific agreement between the parties will govern the project.",
+      "Project scope, deliverables, timelines, and responsibilities will be agreed upon before development begins.",
   },
   {
-    title: "Pricing and Quotations",
+    title: "Pricing & Payment",
     content:
-      "Project pricing depends on requirements, complexity, features, and scope. Any quotation should be considered subject to the terms and validity period stated in that quotation.",
+      "Pricing depends on project requirements and complexity. Payment terms will be discussed and confirmed before work begins.",
   },
   {
     title: "Intellectual Property",
     content:
-      "Ownership, licensing, source code delivery, third-party assets, and usage rights should be clearly agreed upon in the relevant project agreement.",
+      "Ownership and usage rights for project deliverables will be agreed upon between both parties.",
   },
   {
     title: "Third-Party Services",
     content:
-      "This website may link to external websites or services. DotDevX does not control their content, availability, or policies.",
+      "Our website may contain links to external services. We are not responsible for their content or policies.",
   },
   {
-    title: "Website Availability",
+    title: "Changes & Contact",
     content:
-      "We aim to keep this website accessible and its information useful, but uninterrupted availability and error-free operation cannot be guaranteed.",
-  },
-  {
-    title: "Changes to These Terms",
-    content:
-      "These terms may be updated as the website and services change. The latest published version will apply to use of this website.",
-  },
-  {
-    title: "Contact",
-    content:
-      "For questions about these terms, please contact DotDevX through the contact information published on this website.",
+      "We may update these terms when necessary. For questions, contact us through the information provided on our website.",
   },
 ];
 
@@ -57,21 +46,38 @@ export default function TermsPage() {
   return (
     <main className="min-h-screen bg-[#08090B] text-white">
       <Container className="py-24 sm:py-32">
-        <SectionHeading
-          eyebrow="Legal"
-          title="Terms & Conditions"
-          description="General terms concerning the use of the DotDevX website and its services."
-          align="left"
-        />
+        <div className="mx-auto mb-14 max-w-2xl text-center sm:mb-16">
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[#E5383B]/70" />
 
-        <div className="max-w-3xl space-y-10">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+              Legal
+            </span>
+
+            <span className="h-px w-8 bg-[#E5383B]/70" />
+          </div>
+
+          <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Terms <span className="text-white/50">&amp; Conditions</span>
+          </h1>
+
+          <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">
+            General terms for using our website and services.
+          </p>
+        </div>
+
+        <div className="mx-auto max-w-3xl border-t border-white/15">
           {sections.map((section) => (
-            <section key={section.title}>
-              <h2 className="text-xl font-semibold">
+            <section
+              key={section.title}
+              className="border-b border-white/15 py-7 sm:py-8"
+            >
+              <h2 className="flex items-center gap-3 text-lg font-semibold text-white sm:text-xl">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#E5383B]" />
                 {section.title}
               </h2>
 
-              <p className="mt-3 text-sm leading-8 text-white/55">
+              <p className="mt-3 text-sm leading-7 text-white/55 sm:text-base">
                 {section.content}
               </p>
             </section>

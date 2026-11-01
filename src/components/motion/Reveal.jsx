@@ -1,15 +1,17 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
-// স্ক্রলে সেকশনের অংশ নিচ থেকে ভেসে উঠবে (একবারই চলবে)
+// page.jsx সার্ভার কম্পোনেন্ট (metadata আছে), তাই animation এই ছোট ক্লায়েন্ট কম্পোনেন্টে আলাদা রাখলাম
 export default function Reveal({ children, delay = 0, className = "" }) {
+  const reduce = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      initial={reduce ? false : { opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}

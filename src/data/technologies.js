@@ -37,10 +37,14 @@ export const technologies = [
   },
   {
     name: "Firebase",
-    category: "Backend Services",
+    category: "Authentication",
   },
   {
     name: "Vercel",
+    category: "Deployment",
+  },
+  {
+    name: "cloudflare",
     category: "Deployment",
   },
 ];

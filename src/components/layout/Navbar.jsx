@@ -45,14 +45,18 @@ export default function Navbar() {
         className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        {/* Logo */}
+        {/* Logo — ডট ও X লাল, X একটু বড় */}
         <Link
           href="/"
           onClick={() => setIsOpen(false)}
-          className="text-2xl font-bold tracking-tight text-white"
+          className="flex items-baseline text-3xl font-bold tracking-tight text-white"
           aria-label=".DevX Home"
         >
-          <span className="text-[#4F83FF]">.</span>DevX
+          <span className="text-[#E5252A]">.</span>
+          Dev
+          <span className="text-[1.25em] font-extrabold leading-none text-[#E5252A]">
+            X
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -68,7 +72,7 @@ export default function Navbar() {
                 className={`relative py-1 text-sm font-medium transition-colors ${
                   active
                     ? "text-white"
-                    : "text-[#A7B0AC] hover:text-[#75A0FF]"
+                    : "text-[#A7B0AC] hover:text-[#E5252A]"
                 }`}
               >
                 {item.name}
@@ -78,7 +82,7 @@ export default function Navbar() {
                   <motion.span
                     layoutId="nav-underline"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    className="absolute inset-x-0 -bottom-1.5 h-px bg-[#4F83FF]"
+                    className="absolute inset-x-0 -bottom-1.5 h-px bg-[#E5252A]"
                   />
                 )}
               </Link>
@@ -86,10 +90,10 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Desktop CTA */}
+        {/* Desktop CTA — লাল বর্ডার, hover করলে লাল ভরাট */}
         <Link
           href={navigationCTA.href}
-          className="hidden items-center gap-2 rounded-full bg-[#4F83FF] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#4F83FF]/20 transition-all hover:bg-[#75A0FF] hover:shadow-[#75A0FF]/30 md:inline-flex"
+          className="hidden items-center gap-2 rounded-full border border-[#E5252A] px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-[#E5252A] hover:shadow-lg hover:shadow-[#E5252A]/25 md:inline-flex"
         >
           {navigationCTA.label}
           <ArrowUpRight size={16} />
@@ -99,7 +103,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-colors hover:border-[#4F83FF]/40 hover:text-[#4F83FF] md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5252A]/60 text-white transition-colors hover:border-[#E5252A] hover:text-[#E5252A] md:hidden"
           aria-label={isOpen ? "Close menu" : "Open menu"}
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"
@@ -132,7 +136,7 @@ export default function Navbar() {
                     className={`rounded-xl px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 ${
                       active
                         ? "bg-[#4F83FF]/10 text-white"
-                        : "text-[#A7B0AC] hover:text-[#75A0FF]"
+                        : "text-[#A7B0AC] hover:text-[#E5252A]"
                     }`}
                   >
                     {item.name}
@@ -140,10 +144,11 @@ export default function Navbar() {
                 );
               })}
 
+              {/* Mobile CTA — লাল বর্ডার */}
               <Link
                 href={navigationCTA.href}
                 onClick={() => setIsOpen(false)}
-                className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#4F83FF] px-5 py-3 font-semibold text-white transition-colors hover:bg-[#75A0FF]"
+                className="mt-3 flex items-center justify-center gap-2 rounded-full border border-[#E5252A] px-5 py-3 font-semibold text-white transition-colors hover:bg-[#E5252A]"
               >
                 {navigationCTA.label}
                 <ArrowUpRight size={17} />
