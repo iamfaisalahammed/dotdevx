@@ -10,14 +10,11 @@ import { ArrowRight } from "lucide-react";
 
 import Container from "@/components/ui/Container";
 
-// লাল রঙ শুধু ব্যানারের UI আর কোড এডিটরে আছে — গ্যালাক্সির ভেতরে একদম নেই
-// রঙ বদলাতে চাইলে শুধু এই দুটো বদলালেই হবে
+
 const ACCENT = "#E5252A";
 const ACCENT_SOFT = "#FF6B6F";
 
-// নীল চাইলে:
-// const ACCENT = "#4F83FF";
-// const ACCENT_SOFT = "#75A0FF";
+
 
 /* ---------- কোড টাইপিং-এর ডেটা (সাদা-ধূসরের সঙ্গে লালের মিশ্রণ) ---------- */
 
@@ -151,7 +148,7 @@ function CodePanel() {
     firstIncomplete === -1 ? snippet.lines.length - 1 : firstIncomplete;
 
   return (
-    <div className="relative z-10 mx-auto w-full max-w-[540px] overflow-hidden rounded-2xl border border-white/10 bg-[#0A0B0E]/85 shadow-[0_30px_70px_-30px_rgba(229,37,42,0.35)] backdrop-blur-md">
+    <div className="relative z-10 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0A0B0E]/85 shadow-[0_30px_70px_-30px_rgba(229,37,42,0.35)] backdrop-blur-md">
       {/* ওপরের লাল আলোর রেখা */}
       <span
         aria-hidden="true"
@@ -168,10 +165,10 @@ function CodePanel() {
         </span>
       </div>
 
-      {/* ৭ লাইন × 24px + padding = fix উচ্চতা, তাই কখনো লাফাবে না */}
-      <div className="h-[200px] overflow-hidden px-4 py-4 font-mono text-[10px] min-[400px]:text-[11px] sm:text-[12px]">
+      {/* ৭ লাইন × 28px + padding = 236px fix উচ্চতা, তাই কখনো লাফাবে না */}
+      <div className="h-[236px] overflow-hidden px-5 py-5 font-mono text-[11px] min-[400px]:text-[12px] sm:text-[13px]">
         {snippet.lines.map((line, i) => (
-          <div key={`${index}-${i}`} className="flex h-6 items-center">
+          <div key={`${index}-${i}`} className="flex h-7 items-center">
             <span className="mr-3 w-4 shrink-0 select-none text-right text-white/20">
               {i + 1}
             </span>
@@ -399,21 +396,44 @@ function FloatingSymbols() {
   );
 }
 
-/* ---------- কোড এডিটরের পাশে ছোট ফিচার ট্যাগ ---------- */
+/* ---------- কোড এডিটরের পাশে ফিচার ট্যাগ (বাঁকা রেখার ওপর) ---------- */
 
 const chips = [
-  { label: "Fast", delay: 0 },
-  { label: "SEO Ready", delay: 0.15 },
-  { label: "Responsive", delay: 0.3 },
+  // top/left = বাঁকা রেখার ওপর বিন্দু (container-এর শতাংশে)
+  { label: "Fast", top: "10%", left: "25%", delay: 0 },
+  { label: "SEO Ready", top: "50%", left: "58%", delay: 0.15 },
+  { label: "Responsive", top: "90%", left: "25%", delay: 0.3 },
 ];
 
-/* ---------- বাম পাশের ভিজ্যুয়াল: বড় কোড এডিটর ও পাশে ফিচার ---------- */
+function Chip({ label, delay, reduce }) {
+  return (
+    <motion.span
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={
+        reduce
+          ? { opacity: 1, scale: 1 }
+          : { opacity: 1, scale: 1, y: [0, -5, 0] }
+      }
+      transition={{
+        opacity: { duration: 0.5, delay: 0.7 + delay },
+        scale: { duration: 0.5, delay: 0.7 + delay },
+        y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay },
+      }}
+      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-[#0A0B0E]/80 px-3.5 py-2 text-[11px] font-medium text-white/80 shadow-[0_8px_24px_-12px_rgba(229,37,42,0.5)] backdrop-blur-md sm:text-xs"
+    >
+      <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
+      {label}
+    </motion.span>
+  );
+}
+
+/* ---------- বাম পাশের ভিজ্যুয়াল: বড় কোড এডিটর ও পাশে বাঁকা ফিচার ---------- */
 
 function HeroVisual() {
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative mx-auto w-full max-w-[620px]">
+    <div className="relative mx-auto w-full max-w-[640px]">
       {/* View Details */}
       <Link
         href="/work"
@@ -424,7 +444,8 @@ function HeroVisual() {
         <span className="h-px w-6 bg-white/40 transition-all duration-300 group-hover:w-10 group-hover:bg-[var(--accent)] sm:w-8" />
       </Link>
 
-      <div className="flex flex-col items-stretch gap-4 sm:gap-5 md:flex-row md:items-center">
+      <div className="flex flex-col gap-5 md:flex-row md:items-stretch md:gap-0">
+        {/* কোড এডিটর */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -434,32 +455,39 @@ function HeroVisual() {
           <CodePanel />
         </motion.div>
 
-        <div className="flex flex-wrap items-center justify-center gap-2.5 md:w-[132px] md:flex-col md:items-start md:gap-3">
-          {chips.map((chip) => (
-            <motion.span
-              key={chip.label}
-              initial={{ opacity: 0, x: 12 }}
-              animate={
-                reduce
-                  ? { opacity: 1, x: 0 }
-                  : { opacity: 1, x: [0, 3, 0] }
-              }
-              transition={{
-                opacity: { duration: 0.5, delay: 0.7 + chip.delay },
-                x: reduce
-                  ? { duration: 0.5, delay: 0.7 + chip.delay }
-                  : {
-                      duration: 5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: chip.delay,
-                    },
-              }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-2 text-[11px] font-medium text-white/75 backdrop-blur-md sm:text-xs"
+        {/* মোবাইল/ট্যাবলেট: এডিটরের নিচে সারি */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 md:hidden">
+          {chips.map((c) => (
+            <Chip key={c.label} label={c.label} delay={c.delay} reduce={reduce} />
+          ))}
+        </div>
+
+        {/* ডেস্কটপ: এডিটরের ডান পাশে বাঁকা (arc) আকারে */}
+        <div className="relative z-20 -ml-3 hidden w-[130px] shrink-0 md:block">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 120 400"
+            preserveAspectRatio="none"
+            className="absolute inset-0 h-full w-full"
+          >
+            <path
+              d="M30 40 Q 110 200 30 360"
+              fill="none"
+              stroke="rgba(229,37,42,0.45)"
+              strokeWidth="1.2"
+              strokeDasharray="4 6"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+
+          {chips.map((c) => (
+            <div
+              key={c.label}
+              className="absolute -translate-x-1/2 -translate-y-1/2"
+              style={{ top: c.top, left: c.left }}
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
-              {chip.label}
-            </motion.span>
+              <Chip label={c.label} delay={c.delay} reduce={reduce} />
+            </div>
           ))}
         </div>
       </div>
@@ -601,7 +629,7 @@ export default function Hero() {
         </span>
       </div>
 
-      <Container className="grid items-center gap-12 py-14 sm:gap-14 sm:py-20 lg:min-h-[760px] lg:grid-cols-2 lg:gap-12 lg:py-24">
+    <Container className="grid items-center gap-12 py-14 sm:gap-14 sm:py-20 lg:min-h-[760px] lg:grid-cols-2 lg:gap-12 lg:py-12 lg:-translate-y-22">
         {/* লেখার অংশ — মোবাইল/ট্যাবলেটে ওপরে ও বামে, ডেস্কটপে ডানে */}
         <div className="order-1 flex flex-col items-start lg:order-2 lg:items-end lg:text-right">
           <motion.div
@@ -709,4 +737,4 @@ export default function Hero() {
       <ServiceMarquee />
     </section>
   );
-}
+} 
