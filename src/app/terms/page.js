@@ -5,7 +5,7 @@ import { createMetadata } from "@/lib/seo";
 export const metadata = createMetadata({
   title: "Terms and Conditions",
   description:
-    "Read the terms for using the .DevX website and services.",
+    "Review the .DevX Terms and Conditions covering website usage, project agreements, pricing, payments, intellectual property, and third-party services.",
   path: "/terms",
 });
 

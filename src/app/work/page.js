@@ -1,3 +1,4 @@
+
 import Container from "@/components/ui/Container";
 import ProjectCard from "@/components/projects/ProjectCard";
 import Reveal from "@/components/motion/Reveal";
@@ -6,9 +7,9 @@ import { projects } from "@/data/projects";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "Our Work",
+  title: "Web Development Portfolio",
   description:
-    "Explore website development concepts and project showcases by DotDevX.",
+    "Explore .DevX website development portfolio, including creative website concepts, modern web designs, and digital experiences built with modern technologies.",
   path: "/work",
 });
 
@@ -29,7 +30,9 @@ export default function WorkPage() {
 
             <h1 className="mt-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
               Ideas{" "}
-              <span className="text-white/50">brought to life.</span>
+              <span className="text-white/50">
+                brought to life.
+              </span>
             </h1>
 
             <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">

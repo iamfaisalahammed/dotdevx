@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -21,14 +22,20 @@ export async function generateMetadata({ params }) {
 
   if (!project) {
     return {
-      title: "Project Not Found",
+      title: "Project Not Found | .DevX",
+      description: "The requested project could not be found.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
   return createMetadata({
-    title: project.title,
+    title: `${project.title} | Web Development Project`,
     description: project.description,
     path: `/work/${project.slug}`,
+    image: project.image || "/images/og-image.png",
   });
 }
 
@@ -43,11 +50,12 @@ export default async function ProjectDetailsPage({ params }) {
 
   return (
     <main className="relative isolate min-h-screen overflow-hidden bg-[#08090B] text-white">
-      {/* পেছনের আভা আর হালকা grid — এখানে কোনো Reveal নেই, শুধু CSS */}
+      {/* Background glow */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-32 top-0 -z-10 h-[420px] w-[420px] animate-pulse rounded-full bg-[#E5383B]/[0.12] blur-[130px] sm:h-[560px] sm:w-[560px]"
       />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.045] [mask-image:radial-gradient(ellipse_at_top,black,transparent_65%)]"
@@ -71,7 +79,7 @@ export default async function ProjectDetailsPage({ params }) {
         </Link>
 
         <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
-          {/* বামে: প্রজেক্টের তথ্য, বড় স্ক্রিনে গ্যালারি স্ক্রল করলেও আটকে থাকবে */}
+          {/* Project information */}
           <div className="lg:sticky lg:top-28 lg:self-start">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-xs text-white/70">
               <span className="h-1.5 w-1.5 rounded-full bg-[#E5383B]" />
@@ -86,7 +94,7 @@ export default async function ProjectDetailsPage({ params }) {
               {project.description}
             </p>
 
-            {/* ক্যাটাগরি আর টেকনোলজি */}
+            {/* Category and technologies */}
             <dl className="mt-8 border-t border-white/10">
               {project.category && (
                 <div className="flex items-center justify-between gap-4 border-b border-white/10 py-4 text-sm">
@@ -114,7 +122,7 @@ export default async function ProjectDetailsPage({ params }) {
               )}
             </dl>
 
-            {/* বাটন */}
+            {/* Actions */}
             <div className="mt-8 flex flex-col items-stretch gap-4 min-[400px]:flex-row min-[400px]:flex-wrap min-[400px]:items-center">
               <Link
                 href="/contact"
@@ -124,7 +132,9 @@ export default async function ProjectDetailsPage({ params }) {
                   aria-hidden="true"
                   className="absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/25 transition-all duration-700 group-hover:left-[150%]"
                 />
-                <span className="relative">Discuss a Similar Project</span>
+                <span className="relative">
+                  Discuss a Similar Project
+                </span>
                 <ArrowUpRight
                   size={17}
                   className="relative transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -156,7 +166,7 @@ export default async function ProjectDetailsPage({ params }) {
             )}
           </div>
 
-          {/* ডানে: গ্যালারি */}
+          {/* Project gallery */}
           <div className="min-w-0">
             <ProjectGallery
               images={project.gallery || []}

@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { ArrowUpRight, Code2, Lightbulb, Target } from "lucide-react";
 
@@ -6,9 +7,9 @@ import Reveal from "@/components/motion/Reveal";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "About Us",
+  title: "About .DevX",
   description:
-    "Learn about DotDevX, our approach, and how we build modern websites for businesses.",
+    ".DevX is a web development agency in Bangladesh focused on building modern, responsive, and high-performance websites for businesses.",
   path: "/about",
 });
 
@@ -36,11 +37,12 @@ const values = [
 export default function AboutPage() {
   return (
     <main className="relative isolate min-h-screen overflow-hidden bg-[#08090B] text-white">
-      {/* পেছনের আভা আর হালকা grid */}
+      {/* Background glow and grid */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-32 top-0 -z-10 h-[420px] w-[420px] animate-pulse rounded-full bg-[#E5383B]/[0.12] blur-[130px] sm:h-[560px] sm:w-[560px]"
       />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.045] [mask-image:radial-gradient(ellipse_at_top,black,transparent_65%)]"
@@ -52,7 +54,7 @@ export default function AboutPage() {
       />
 
       <Container className="py-20 sm:py-28 lg:py-32">
-        {/* হেডিং */}
+        {/* Heading */}
         <Reveal className="max-w-3xl">
           <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight min-[400px]:text-5xl sm:text-6xl lg:text-7xl">
             Building better{" "}
@@ -65,20 +67,24 @@ export default function AboutPage() {
           </p>
         </Reveal>
 
-        {/* গল্প: বামে বড় করে মূল কথা, ডানে বাকি দুই অনুচ্ছেদ */}
+        {/* About */}
         <div className="mt-16 grid gap-10 border-t border-white/10 pt-12 sm:mt-24 sm:pt-16 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-20">
           <Reveal>
             <p className="text-2xl font-semibold leading-[1.4] tracking-tight sm:text-3xl lg:text-[34px]">
-              DotDevX is a web development agency focused on creating modern,
+              .DevX is a web development agency focused on creating modern,
               responsive, and purposeful websites.
             </p>
+
             <span
               aria-hidden="true"
               className="mt-8 block h-[3px] w-14 rounded-full bg-[#E5383B]"
             />
           </Reveal>
 
-          <Reveal delay={0.1} className="space-y-5 text-base leading-8 text-white/60">
+          <Reveal
+            delay={0.1}
+            className="space-y-5 text-base leading-8 text-white/60"
+          >
             <p>
               We believe a website should do more than look attractive. It
               should communicate clearly, provide a useful experience, and
@@ -93,7 +99,7 @@ export default function AboutPage() {
           </Reveal>
         </div>
 
-        {/* মূল্যবোধ: বড় সারি, hover করলে লাল রঙ ছড়াবে */}
+        {/* Values */}
         <div className="mt-20 sm:mt-28">
           <Reveal>
             <h2 className="mb-10 text-3xl font-bold tracking-tight sm:mb-14 sm:text-4xl lg:text-5xl">
@@ -137,7 +143,7 @@ export default function AboutPage() {
           </ul>
         </div>
 
-        {/* শেষে ডাক */}
+        {/* Contact CTA */}
         <Reveal className="mt-20 flex flex-col gap-8 border-t border-white/10 pt-12 sm:mt-28 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-md text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
             Have a project in mind?{" "}
@@ -152,7 +158,11 @@ export default function AboutPage() {
               aria-hidden="true"
               className="absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/25 transition-all duration-700 group-hover:left-[150%]"
             />
-            <span className="relative">Let&apos;s Discuss Your Project</span>
+
+            <span className="relative">
+              Let&apos;s Discuss Your Project
+            </span>
+
             <ArrowUpRight
               size={18}
               className="relative transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"

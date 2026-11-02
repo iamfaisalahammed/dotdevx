@@ -1,3 +1,4 @@
+
 import Hero from "@/components/sections/home/Hero";
 import Services from "@/components/sections/home/Services";
 import Projects from "@/components/sections/home/Projects";
@@ -11,10 +12,19 @@ import Contact from "@/components/sections/home/Contact";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
+import { createMetadata } from "@/lib/seo";
+
+export const metadata = createMetadata({
+  title: "Web Development Agency in Bangladesh",
+  description:
+    ".DevX is a web development agency building modern, responsive, and high-performance websites for businesses in Bangladesh and worldwide.",
+  path: "/",
+});
+
 export default function HomePage() {
   return (
     <main>
-      <Navbar></Navbar>
+      <Navbar />
       <Hero />
       <Services />
       <Projects />
@@ -25,7 +35,7 @@ export default function HomePage() {
       <About />
       <FAQ />
       <Contact />
-      <Footer></Footer>
+      <Footer />
     </main>
   );
 }

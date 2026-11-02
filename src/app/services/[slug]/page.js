@@ -1,3 +1,4 @@
+
 import { notFound } from "next/navigation";
 
 import { services } from "@/data/services";
@@ -19,13 +20,18 @@ export async function generateMetadata({ params }) {
 
   if (!service) {
     return {
-      title: "Service Not Found",
+      title: "Service Not Found | .DevX",
+      description: "The requested service could not be found.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
   return createMetadata({
-    title: service.title,
-    description: service.description,
+    title: `${service.title} Services`,
+    description: `${service.description} Explore professional ${service.title.toLowerCase()} services by .DevX for businesses in Bangladesh and worldwide.`,
     path: `/services/${service.slug}`,
   });
 }

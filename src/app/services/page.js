@@ -1,3 +1,4 @@
+
 import Container from "@/components/ui/Container";
 import ServiceCard from "@/components/services/ServiceCard";
 import Reveal from "@/components/motion/Reveal";
@@ -6,9 +7,9 @@ import { services } from "@/data/services";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "Our Services",
+  title: "Web Development Services",
   description:
-    "Explore DotDevX web development services, including business websites, e-commerce, landing pages, and custom web applications.",
+    ".DevX offers professional web development services, including business websites, e-commerce websites, landing pages, and custom web applications for businesses in Bangladesh and worldwide.",
   path: "/services",
 });
 
@@ -29,7 +30,9 @@ export default function ServicesPage() {
 
             <h1 className="mt-5 text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
               Solutions{" "}
-              <span className="text-white/50">for your digital needs.</span>
+              <span className="text-white/50">
+                for your digital needs.
+              </span>
             </h1>
 
             <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">
@@ -39,7 +42,7 @@ export default function ServicesPage() {
           </div>
         </Reveal>
 
-        {/* Services (plain divider grid) */}
+        {/* Services */}
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 border-t border-white/15 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-3">
           {services.map((service, index) => (
             <Reveal key={service.slug} delay={index * 0.06}>

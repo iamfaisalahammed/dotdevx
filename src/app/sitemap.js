@@ -4,9 +4,7 @@ import { services } from "@/data/services";
 import { projects } from "@/data/projects";
 
 export default function sitemap() {
-  if (!siteConfig.url) {
-    return [];
-  }
+  if (!siteConfig.url) return [];
 
   let baseUrl;
 
@@ -38,14 +36,21 @@ export default function sitemap() {
     (project) => `/work/${project.slug}`
   );
 
-  const allRoutes = [
+  const allRoutes = [...new Set([
     ...staticRoutes,
     ...serviceRoutes,
     ...projectRoutes,
-  ];
+  ])];
 
   return allRoutes.map((route) => ({
     url: new URL(route, baseUrl).toString(),
     lastModified: new Date(),
+    changeFrequency: route === "" ? "weekly" : "monthly",
+    priority:
+      route === ""
+        ? 1
+        : route === "/services" || route === "/work"
+          ? 0.9
+          : 0.7,
   }));
 }

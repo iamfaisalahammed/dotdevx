@@ -1,19 +1,33 @@
+
 export const siteConfig = {
-  name: "DotDevX",
-  shortName: "DotDevX",
+  name: ".DevX",
+  shortName: ".DevX",
 
   description:
-    "DotDevX builds modern, responsive, and high-performance websites for businesses.",
+    ".DevX is a web development agency building modern, responsive, and high-performance websites for businesses in Bangladesh and worldwide.",
 
   url: process.env.NEXT_PUBLIC_SITE_URL || "",
 
   language: "en",
+  locale: "en_US",
+
+  keywords: [
+    "Web Development Agency Bangladesh",
+    "Website Development Company",
+    "Custom Website Development",
+    "Next.js Development",
+    "MERN Stack Development",
+    "Business Website Development",
+    "Responsive Web Design",
+  ],
+
+  category: "Web Development Agency",
 
   contact: {
     email: "",
     phone: "",
-    whatsapp: "",
-    location: "",
+    whatsapp: "8801820037321",
+    location: "Bangladesh",
   },
 
   socialLinks: {

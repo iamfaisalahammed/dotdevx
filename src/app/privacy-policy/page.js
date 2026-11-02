@@ -5,7 +5,7 @@ import { createMetadata } from "@/lib/seo";
 export const metadata = createMetadata({
   title: "Privacy Policy",
   description:
-    "Learn how .DevX handles information shared through its website and communication channels.",
+    "Read the .DevX Privacy Policy to understand how we handle personal information, contact details, and project inquiries shared through our website and communication channels.",
   path: "/privacy-policy",
 });
 
@@ -51,7 +51,6 @@ export default function PrivacyPolicyPage() {
   return (
     <main className="min-h-screen bg-[#08090B] text-white">
       <Container className="py-24 sm:py-32">
-
         {/* Page Heading */}
         <div className="mx-auto mb-14 max-w-2xl text-center sm:mb-16">
           <div className="flex items-center justify-center gap-3">
@@ -69,7 +68,8 @@ export default function PrivacyPolicyPage() {
           </h1>
 
           <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">
-            How we handle information shared through our website and communication channels.
+            How we handle information shared through our website and
+            communication channels.
           </p>
         </div>
 
@@ -91,7 +91,6 @@ export default function PrivacyPolicyPage() {
             </section>
           ))}
         </div>
-
       </Container>
     </main>
   );
