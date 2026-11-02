@@ -51,7 +51,7 @@ export default function Contact() {
         aria-hidden="true"
         animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#E5383B]/20 blur-[130px] sm:h-[560px] sm:w-[560px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0C0E10]/20 blur-[130px] sm:h-[560px] sm:w-[560px]"
       />
 
       {/* হালকা grid, মাঝখান থেকে মিলিয়ে যাবে */}
@@ -98,7 +98,7 @@ export default function Contact() {
           <motion.div {...reveal(0.3)} className="mt-9 sm:mt-10">
             <Link
               href="/contact"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[#E5252A] px-8 py-4 text-sm font-semibold text-white shadow-[0_12px_40px_-10px_#E5252A] transition-shadow duration-300 hover:shadow-[0_16px_50px_-8px_#E5252A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:text-base"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#E5252A] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#E5252A]"
             >
               {/* hover করলে আলো ওপর দিয়ে সরে যাবে */}
               <span

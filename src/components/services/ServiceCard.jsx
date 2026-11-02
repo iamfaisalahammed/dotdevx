@@ -1,110 +1,95 @@
+
 "use client";
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Code2 } from "lucide-react";
 
-// Hero-তে --accent সেট করা থাকলে সেটাই নেবে, না থাকলে এই লাল
 const ACCENT = "var(--accent, #E5383B)";
 
 export default function ServiceCard({ service, index = 0 }) {
   const reduce = useReducedMotion();
+
   if (!service) return null;
 
   const Icon = service.icon;
   const hasIcon = Icon && typeof Icon !== "string";
+
   const number = String(index + 1).padStart(2, "0");
 
-  // মাউসের জায়গা CSS variable-এ রাখছি, spotlight সেটা দেখে সরবে
-  function onMove(e) {
-    if (e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--x", `${e.clientX - r.left}px`);
-    e.currentTarget.style.setProperty("--y", `${e.clientY - r.top}px`);
-  }
-
-  const title = (
-    <h3 className="text-xl font-semibold leading-snug text-white sm:text-[22px]">
-      {service.title}
-    </h3>
-  );
+  const detailsHref = service.slug
+    ? `/services/${service.slug}`
+    : null;
 
   return (
     <motion.article
-      onPointerMove={onMove}
-      initial={reduce ? false : { opacity: 0, y: 36 }}
+      initial={reduce ? false : { opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      // একসাথে অনেক কার্ড এলে দেরি যেন না বাড়ে, তাই ৩-এ ঘুরিয়ে দিয়েছি
+      viewport={{ once: true, margin: "-50px" }}
       transition={{
-        duration: 0.7,
+        duration: 0.6,
         delay: (index % 3) * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      style={{ "--x": "50%", "--y": "0%" }}
-      className="group relative isolate h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#E5383B]/50 active:scale-[0.99] sm:p-8"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-[#101113] p-6 transition-all duration-500 hover:-translate-y-2 hover:border-[#E5383B]/50 hover:bg-[#141416] sm:p-8"
     >
-      {/* মাউসের সঙ্গে সঙ্গে চলা আলো */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background: `radial-gradient(320px circle at var(--x) var(--y), color-mix(in srgb, ${ACCENT} 16%, transparent), transparent 70%)`,
-        }}
-      />
+      {/* Top */}
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-bold tracking-[0.2em] text-white/30">
+          SERVICE / {number}
+        </span>
 
-      {/* পেছনের বড় ক্রম নম্বর, হালকা করে রাখা */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-6 -right-2 -z-10 select-none text-[120px] font-black leading-none text-white/[0.03] transition-all duration-500 group-hover:-translate-y-2 group-hover:text-[#E5383B]/[0.08] sm:text-[150px]"
-      >
-        {number}
-      </span>
-
-      <div className="flex items-start justify-between gap-4">
-        {hasIcon ? (
-          <span
-            className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-[#0C0E10] text-[#E5383B] transition-all duration-500 group-hover:-rotate-6 group-hover:scale-105 group-hover:border-transparent group-hover:bg-[#E5383B] group-hover:text-white group-hover:shadow-[0_12px_30px_-8px_#E5383B] sm:h-16 sm:w-16"
-          >
-            <Icon size={26} strokeWidth={1.8} />
-          </span>
-        ) : (
-          <span className="text-sm font-semibold text-white/30">{number}</span>
-        )}
-
-        {/* তীর শুধু লিংক থাকলে দেখাবে */}
-        {service.href && (
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/50 transition-all duration-500 group-hover:rotate-45 group-hover:border-[#E5383B] group-hover:bg-[#E5383B] group-hover:text-white">
-            <ArrowUpRight size={18} />
-          </span>
-        )}
+        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-[#E5383B] transition-all duration-500 group-hover:border-[#E5383B]/40 group-hover:bg-[#E5383B] group-hover:text-white">
+          {hasIcon ? (
+            <Icon size={21} strokeWidth={1.7} />
+          ) : (
+            <Code2 size={21} strokeWidth={1.7} />
+          )}
+        </span>
       </div>
 
-      <div className="mt-8 sm:mt-10">
-        {service.href ? (
-          // after দিয়ে পুরো কার্ডটাই ক্লিকযোগ্য করা হয়েছে
-          <Link
-            href={service.href}
-            className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
-          >
-            {title}
-          </Link>
-        ) : (
-          title
-        )}
+      {/* Content */}
+      <div className="mt-10 flex-1">
+        <h3 className="max-w-[280px] text-xl font-semibold leading-snug tracking-tight text-white transition-colors duration-300 group-hover:text-[#FF6B6F] sm:text-2xl">
+          {service.title}
+        </h3>
 
         {service.description && (
-          <p className="mt-3 text-sm leading-7 text-white/55 sm:text-[15px] sm:leading-8">
+          <p className="mt-4 text-sm leading-7 text-white/45 sm:text-[15px]">
             {service.description}
           </p>
         )}
       </div>
 
-      {/* নিচের লাল রেখা, hover করলে বাম থেকে ডানে ভরে যাবে */}
-      <span
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-[#E5383B] to-[#FF6B6F] transition-transform duration-700 ease-out group-hover:scale-x-100"
-      />
+      {/* Divider */}
+      <div className="my-7 h-px w-full bg-white/[0.08] transition-colors duration-500 group-hover:bg-[#E5383B]/30" />
+
+      {/* Bottom */}
+      <div className="flex items-center justify-between gap-3">
+        {detailsHref ? (
+          <Link
+            href={detailsHref}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white/75 transition-colors duration-300 hover:text-[#E5383B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E5383B] rounded-sm"
+          >
+            Explore Service
+            <ArrowUpRight
+              size={16}
+              className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+            />
+          </Link>
+        ) : (
+          <span className="text-sm font-semibold text-white/50">
+            Our Service
+          </span>
+        )}
+
+        <span className="text-2xl font-light text-white/[0.12] transition-colors duration-500 group-hover:text-[#E5383B]/50">
+          {number}
+        </span>
+      </div>
+
+      {/* Bottom Accent */}
+      <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#E5383B] transition-all duration-500 group-hover:w-full" />
     </motion.article>
   );
 }

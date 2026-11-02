@@ -31,7 +31,7 @@ export default function MobileCTA() {
 
         <Link
           href="/contact"
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#2BFF88] py-3 text-sm font-semibold text-[#04120A] transition-colors hover:bg-[#52FF9D]"
+          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#E5252A] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#E5252A]"
         >
           Start a Project
           <ArrowUpRight size={17} />

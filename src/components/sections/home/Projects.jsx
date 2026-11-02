@@ -11,25 +11,21 @@ export default function Projects() {
   return (
     <section
       id="work"
-      className="border-t border-white/[0.06] bg-[#08090B] py-24 sm:py-28"
+      aria-labelledby="work-heading"
+      className="border-t border-white/[0.06] bg-[#08090B] py-20 sm:py-24 lg:py-28"
     >
       <Container>
-        {/* হেডিং */}
-        <div className="mx-auto mb-14 max-w-2xl text-center sm:mb-16">
-          <div className="mb-5 flex items-center justify-center gap-3">
-            <span className="h-px w-8 bg-[#E5383B]/70" />
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
-              Selected Work
-            </span>
-            <span className="h-px w-8 bg-[#E5383B]/70" />
-          </div>
-
-          <h2 className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+        {/* হেডিং — Technologies সেকশনের প্যাটার্ন: বামে সাজানো, লেবেল ছাড়া */}
+        <div className="mb-10 max-w-2xl sm:mb-12">
+          <h2
+            id="work-heading"
+            className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+          >
             Ideas transformed into{" "}
-            <span className="text-white/50">digital experiences.</span>
+            <span className="text-white/40">digital experiences.</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/55 sm:text-base">
+          <p className="mt-5 max-w-xl text-sm leading-7 text-white/55 sm:text-base sm:leading-8">
             Explore our project concepts and see how we approach modern website
             design and development.
           </p>
@@ -43,19 +39,19 @@ export default function Projects() {
               ))}
             </div>
 
-            <p className="mt-10 text-center text-xs leading-6 text-white/40">
+            <p className="mt-10 text-xs leading-6 text-white/40">
               Concept projects are design explorations and are not presented as
               commissioned client work.
             </p>
           </>
         ) : (
           // প্রজেক্ট না থাকলে: বক্স ছাড়া, লাল লাইনের মাঝে
-          <div className="mx-auto max-w-2xl border-y border-[#E5383B]/40 px-6 py-14 text-center">
+          <div className="max-w-2xl border-y border-[#E5383B]/40 py-12 sm:py-14">
             <h3 className="text-xl font-semibold text-white">
               Our portfolio is taking shape.
             </h3>
 
-            <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-white/55">
+            <p className="mt-3 max-w-md text-sm leading-7 text-white/55">
               We are preparing project showcases. Get in touch to discuss what
               we can build for your business.
             </p>
@@ -77,8 +73,7 @@ export default function Projects() {
           {/* লাল বাটন: hover করলে তীর কোণায় সরে যাবে */}
           <Link
             href="/contact"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#E5252A] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#E5252A]
-"
+            className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-[#E5252A] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#E5252A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Start Your Project
             <ArrowUpRight

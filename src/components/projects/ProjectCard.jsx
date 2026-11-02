@@ -26,7 +26,7 @@ export default function ProjectCard({ project }) {
             ) : (
               <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
                 <span className="text-4xl font-bold tracking-tight text-white/10">
-                  DotDevX
+                  .DevX
                 </span>
                 <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/35">
                   Project Preview

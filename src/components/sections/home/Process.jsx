@@ -1,6 +1,8 @@
+
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 
 import { developmentProcess } from "@/data/process";
 import Container from "@/components/ui/Container";
@@ -9,6 +11,18 @@ const ease = [0.22, 1, 0.36, 1];
 
 export default function Process() {
   const reduce = useReducedMotion();
+  const mobileLineRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: mobileLineRef,
+    offset: ["start 75%", "end 65%"],
+  });
+
+  const mobileLineProgress = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0%", "100%"]
+  );
 
   const reveal = (delay = 0) => ({
     initial: reduce ? false : { opacity: 0, y: 24 },
@@ -17,7 +31,6 @@ export default function Process() {
     transition: { duration: 0.7, delay, ease },
   });
 
-  // লাইনটা স্ক্রলে ঢুকলে ধীরে ধীরে লাল হয়ে ভরে যাবে
   const draw = (axis) => ({
     initial: reduce ? false : { [axis]: 0 },
     whileInView: { [axis]: 1 },
@@ -43,23 +56,27 @@ export default function Process() {
           </p>
         </motion.div>
 
-        <div className="relative">
-          {/* মোবাইলে লাইন নিচের দিকে নামে */}
+        <div ref={mobileLineRef} className="relative">
+          {/* Mobile scroll-based glowing line */}
           <span
             aria-hidden="true"
             className="absolute bottom-2 left-[6px] top-2 w-px bg-white/10 lg:hidden"
           />
-          <motion.span
-            aria-hidden="true"
-            {...draw("scaleY")}
-            className="absolute bottom-2 left-[6px] top-2 w-px origin-top bg-[#E5383B] lg:hidden"
-          />
 
-          {/* ডেস্কটপে লাইন ডানে যায় */}
+          {!reduce && (
+            <motion.span
+              aria-hidden="true"
+              style={{ height: mobileLineProgress }}
+              className="absolute left-[5px] top-2 w-[3px] rounded-full bg-[#E5383B] shadow-[0_0_8px_#E5383B,0_0_18px_#E5383B] lg:hidden"
+            />
+          )}
+
+          {/* Desktop line */}
           <span
             aria-hidden="true"
             className="absolute left-0 right-0 top-[7px] hidden h-px bg-white/10 lg:block"
           />
+
           <motion.span
             aria-hidden="true"
             {...draw("scaleX")}
@@ -73,9 +90,21 @@ export default function Process() {
                 {...reveal(i * 0.12)}
                 className="group relative pl-9 lg:pl-0 lg:pt-12"
               >
-                {/* লাইনের ওপরের বিন্দু, hover করলে ভরে যাবে */}
-                <span
+                {/* Timeline dot */}
+                <motion.span
                   aria-hidden="true"
+                  initial={false}
+                  whileInView={
+                    reduce
+                      ? {}
+                      : {
+                          backgroundColor: "#E5383B",
+                          boxShadow: "0 0 18px #E5383B",
+                          scale: 1.2,
+                        }
+                  }
+                  viewport={{ once: true, margin: "-35% 0px -35% 0px" }}
+                  transition={{ duration: 0.4 }}
                   className="absolute left-0 top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-[#E5383B] bg-[#08090B] transition-all duration-300 group-hover:scale-125 group-hover:bg-[#E5383B] group-hover:shadow-[0_0_18px_#E5383B] lg:top-0"
                 />
 

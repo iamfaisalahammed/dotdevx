@@ -99,17 +99,41 @@ export default function Navbar() {
           <ArrowUpRight size={16} />
         </Link>
 
-        {/* Mobile Menu Button */}
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5252A]/60 text-white transition-colors hover:border-[#E5252A] hover:text-[#E5252A] md:hidden"
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          aria-controls="mobile-navigation"
-        >
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+       
+{/* Mobile Menu Button */}
+<button
+  type="button"
+  onClick={() => setIsOpen((prev) => !prev)}
+  className="flex h-10 w-10 items-center justify-center text-white transition-colors duration-300 hover:text-[#E5252A] md:hidden"
+  aria-label={isOpen ? "Close menu" : "Open menu"}
+  aria-expanded={isOpen}
+  aria-controls="mobile-navigation"
+>
+  <AnimatePresence mode="wait" initial={false}>
+    {isOpen ? (
+      <motion.span
+        key="close"
+        initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
+        animate={{ opacity: 1, rotate: 0, scale: 1 }}
+        exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
+        transition={{ duration: 0.2 }}
+      >
+        <X size={26} strokeWidth={1.7} />
+      </motion.span>
+    ) : (
+      <motion.span
+        key="menu"
+        initial={{ opacity: 0, rotate: 90, scale: 0.8 }}
+        animate={{ opacity: 1, rotate: 0, scale: 1 }}
+        exit={{ opacity: 0, rotate: -90, scale: 0.8 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Menu size={26} strokeWidth={1.7} />
+      </motion.span>
+    )}
+  </AnimatePresence>
+</button>
+
       </nav>
 
       {/* Mobile Navigation */}
