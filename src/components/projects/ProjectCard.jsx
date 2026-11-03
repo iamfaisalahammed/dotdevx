@@ -1,91 +1,159 @@
+// components/ProjectCard.jsx
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Plus } from "lucide-react";
 
 export default function ProjectCard({ project }) {
+  const [open, setOpen] = useState(false);
+
   if (!project) return null;
 
+  // শুধু মাউস থাকলে spotlight চলবে, টাচে নয়
+  const handleMove = (e) => {
+    if (e.pointerType !== "mouse") return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+  };
+
+  // আইকনে ক্লিক করলে শুধু বিবরণ খুলবে/বন্ধ হবে, পেজে যাবে না
+  const toggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen((v) => !v);
+  };
+
   return (
-    <article className="group h-full">
+    <article
+      onPointerMove={handleMove}
+      className="group relative aspect-square h-full w-full overflow-hidden rounded-3xl border border-white/10 bg-[#0B0D10] transition-all duration-500 [-webkit-tap-highlight-color:transparent] sm:aspect-[4/5] md:rounded-[2rem] [&:has(a:active)]:scale-[0.98] [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:border-white/25 [@media(hover:hover)]:hover:shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)]"
+    >
+      {/* ব্যাকগ্রাউন্ড ছবি */}
+      {project.image ? (
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 [@media(hover:hover)]:group-hover:scale-105"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,#1c1517,#0B0D10_70%)]">
+          <span className="text-6xl font-black tracking-tighter text-white/[0.06] sm:text-7xl">
+            .DevX
+          </span>
+        </div>
+      )}
+
+      {/* গাঢ় overlay (বিবরণ খুললে একটু গাঢ় হয়, যাতে লেখা পড়া যায়) */}
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090B] via-[#08090B]/50 to-transparent transition-opacity duration-500 ${
+          open ? "opacity-100" : "opacity-90"
+        }`}
+      />
+
+      {/* হালকা সাদা spotlight (শুধু ডেস্কটপ) */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden opacity-0 transition-opacity duration-500 bg-[radial-gradient(240px_circle_at_var(--x,50%)_var(--y,50%),rgba(255,255,255,0.09),transparent_70%)] [@media(hover:hover)]:block [@media(hover:hover)]:group-hover:opacity-100"
+      />
+
+      {/* পুরো কার্ড জুড়ে লিংক (এর ওপরে আইকন বাটন আলাদাভাবে কাজ করে) */}
       <Link
         href={`/work/${project.slug}`}
         aria-label={`View ${project.title} project`}
-        className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-3 backdrop-blur transition-all duration-500 hover:-translate-y-1.5 hover:border-[#E5383B]/60 hover:shadow-[0_28px_60px_-28px_#E5383B] focus-visible:-translate-y-1.5 focus-visible:border-[#E5383B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:border-[#E5383B]"
-      >
-        {/* কার্ডের ওপরের কিনারায় লাল আলোর রেখা, hover-এ দেখা যায় */}
-        <span
-          aria-hidden="true"
-          className="absolute inset-x-8 -top-px h-px bg-gradient-to-r from-transparent via-[#E5383B] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        />
+        className="absolute inset-0 z-10 rounded-[inherit] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+      />
 
-        {/* ছবির অংশ */}
-        <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-[#111417]">
-          {project.image ? (
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          ) : (
-            <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
-              <span className="text-4xl font-bold tracking-tight text-white/10">
-                .DevX
-              </span>
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/35">
-                Project Preview
-              </span>
-            </div>
-          )}
-
-          {/* নিচে গাঢ় gradient, যাতে ছবির সাথে ট্যাগ মানায় */}
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090B]/70 via-transparent to-transparent"
-          />
-
-          {/* ক্যাটাগরি ট্যাগ */}
-          {project.category && (
-            <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-white/80 backdrop-blur">
-              {project.category}
-            </span>
-          )}
-
-          {/* hover করলে তীর বাটন ভেসে ওঠে */}
-          <span className="absolute right-3 top-3 flex h-10 w-10 translate-y-1 items-center justify-center rounded-full bg-[#E5383B] text-white opacity-0 shadow-[0_10px_30px_-8px_#E5383B] transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-            <ArrowUpRight size={18} />
+      {/* উপরের সারি: ক্যাটাগরি + তীর */}
+      <div className="pointer-events-none absolute inset-x-4 top-4 z-20 flex items-start justify-between sm:inset-x-5 sm:top-5">
+        {project.category ? (
+          <span className="rounded-full bg-black/40 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-white/85 ring-1 ring-white/15 backdrop-blur-md sm:text-[11px]">
+            {project.category}
           </span>
-        </div>
+        ) : (
+          <span />
+        )}
 
-        {/* লেখার অংশ */}
-        <div className="flex flex-1 flex-col px-2 pb-3 pt-5">
-          <div className="flex items-center gap-3">
-            <span className="h-2 w-2 shrink-0 rounded-full bg-[#E5383B] transition-transform duration-300 group-hover:scale-150" />
-            <h3 className="flex-1 text-lg font-semibold text-white sm:text-xl">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white ring-1 ring-white/15 backdrop-blur-md transition-all duration-300 sm:h-11 sm:w-11 [@media(hover:hover)]:group-hover:bg-white [@media(hover:hover)]:group-hover:text-black [@media(hover:hover)]:group-hover:ring-white">
+          <ArrowUpRight size={18} />
+        </span>
+      </div>
+
+      {/* নিচের glass panel */}
+      <div
+        className={`pointer-events-none absolute inset-x-3 bottom-3 z-20 rounded-2xl border bg-black/50 p-4 backdrop-blur-xl transition-colors duration-500 sm:inset-x-4 sm:bottom-4 sm:p-5 [@media(hover:hover)]:group-hover:border-white/20 ${
+          open ? "border-white/25" : "border-white/10"
+        }`}
+      >
+        <div className="flex items-start gap-3">
+          <div className="min-w-0 flex-1">
+            {project.type && (
+              <p className="mb-1.5 flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-white/55 sm:text-[11px]">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#E5383B]" />
+                <span className="truncate">{project.type}</span>
+              </p>
+            )}
+
+            <h3 className="text-lg font-semibold leading-tight text-white sm:text-xl md:text-2xl">
               {project.title}
             </h3>
-            <ArrowUpRight
-              size={18}
-              className="shrink-0 text-white/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#FF4D50]"
-            />
           </div>
 
-          {/* টাইপ */}
-          {project.type && (
-            <p className="mt-2 pl-5 text-xs font-medium uppercase tracking-[0.18em] text-white/45">
-              {project.type}
-            </p>
-          )}
-
-          {/* বিবরণ */}
+          {/* মোবাইল/ট্যাবলেটের জন্য আইকন বাটন (ডেস্কটপে hover থাকায় লুকানো) */}
           {project.description && (
-            <p className="mt-3 line-clamp-2 pl-5 text-sm leading-7 text-white/55">
-              {project.description}
-            </p>
+            <button
+              type="button"
+              onClick={toggle}
+              aria-expanded={open}
+              aria-label={open ? "Hide details" : "Show details"}
+              className={`pointer-events-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full ring-1 transition-all duration-300 [-webkit-tap-highlight-color:transparent] active:scale-90 [@media(hover:hover)]:md:hidden ${
+                open
+                  ? "bg-white text-black ring-white"
+                  : "bg-white/10 text-white ring-white/20"
+              }`}
+            >
+              <Plus
+                size={18}
+                className={`transition-transform duration-300 ${
+                  open ? "rotate-45" : "rotate-0"
+                }`}
+              />
+            </button>
           )}
         </div>
-      </Link>
+
+        {/* বিবরণ: মোবাইলে আইকনে খোলে, ডেস্কটপে hover-এ খোলে */}
+        {project.description && (
+          <div
+            className={`grid transition-[grid-template-rows,opacity] duration-500 [@media(hover:hover)]:md:grid-rows-[0fr] [@media(hover:hover)]:md:opacity-0 [@media(hover:hover)]:md:group-hover:grid-rows-[1fr] [@media(hover:hover)]:md:group-hover:opacity-100 ${
+              open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+            }`}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <p className="line-clamp-3 pt-3 text-[13px] leading-6 text-white/65 sm:text-sm sm:leading-7">
+                {project.description}
+              </p>
+
+              {/* শুধু মোবাইলে: প্রজেক্ট দেখার ইঙ্গিত */}
+              <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-white/80 [@media(hover:hover)]:md:hidden">
+                View project
+                <ArrowUpRight size={14} />
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* নিচের রেখা (শুধু ডেস্কটপ hover) */}
+        <span
+          aria-hidden="true"
+          className="mt-3 hidden h-px w-0 bg-gradient-to-r from-white/40 to-transparent transition-all duration-700 [@media(hover:hover)]:md:block [@media(hover:hover)]:group-hover:w-full"
+        />
+      </div>
     </article>
   );
 }

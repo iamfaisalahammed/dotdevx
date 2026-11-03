@@ -93,16 +93,15 @@ export default function About() {
               responsive, and purposeful websites for businesses.
             </p>
 
-            <Link
-              href="/about"
-              className="group relative mt-7 inline-flex items-center gap-2 overflow-hidden rounded-full border border-[#E5252A] px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#E5252A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-            >
-              Learn More About Us
-              <ArrowUpRight
-                size={18}
-                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              />
-            </Link>
+           <Link
+  href="/about"
+  className="group mt-7 inline-flex w-fit items-center gap-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+>
+  Learn More About Us
+  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E5383B] transition-transform duration-300 group-hover:rotate-45">
+    <ArrowUpRight size={16} />
+  </span>
+</Link>
           </motion.div>
         </div>
 

@@ -1,6 +1,5 @@
-
 import Link from "next/link";
-import { ArrowUpRight, Code2, Lightbulb, Target } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Code2, Lightbulb, Target } from "lucide-react";
 
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/motion/Reveal";
@@ -54,6 +53,20 @@ export default function AboutPage() {
       />
 
       <Container className="py-20 sm:py-28 lg:py-32">
+        {/* Back to Home বাটন */}
+        <Reveal>
+          <Link
+            href="/"
+            className="group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/65 transition-all hover:border-[#E5383B]/60 hover:text-white sm:mb-10"
+          >
+            <ArrowLeft
+              size={15}
+              className="transition-transform duration-300 group-hover:-translate-x-0.5"
+            />
+            Back to Home
+          </Link>
+        </Reveal>
+
         {/* Heading */}
         <Reveal className="max-w-3xl">
           <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight min-[400px]:text-5xl sm:text-6xl lg:text-7xl">

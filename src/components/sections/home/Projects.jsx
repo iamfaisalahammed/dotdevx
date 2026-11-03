@@ -59,7 +59,7 @@ export default function Projects() {
         )}
 
         {/* নিচের CTA: বক্স ছাড়া, লাল লাইনের মাঝে */}
-        <div className="mt-16 flex flex-col items-start justify-between gap-6 border-y border-[#E5383B]/40 py-8 sm:flex-row sm:items-center">
+        <div className="mt-16 flex flex-col items-start justify-between gap-6 border-y border-[#ffffff]/40 py-8 sm:flex-row sm:items-center">
           <div>
             <h3 className="text-lg font-semibold text-white sm:text-xl">
               Have an idea for your next website?
@@ -73,13 +73,12 @@ export default function Projects() {
           {/* লাল বাটন: hover করলে তীর কোণায় সরে যাবে */}
           <Link
             href="/contact"
-            className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-[#E5252A] px-7 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#E5252A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="group inline-flex w-fit shrink-0 items-center gap-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
             Start Your Project
-            <ArrowUpRight
-              size={17}
-              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E5383B] transition-transform duration-300 group-hover:rotate-45">
+              <ArrowUpRight size={16} />
+            </span>
           </Link>
         </div>
       </Container>

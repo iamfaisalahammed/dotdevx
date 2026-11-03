@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import {
   ShoppingBag,
-  Rocket,
+  Orbit,
   GraduationCap,
   Utensils,
   BriefcaseBusiness,
@@ -15,7 +15,7 @@ import Container from "@/components/ui/Container";
 
 const industryIcons = {
   "E-commerce": ShoppingBag,
-  Startups: Rocket,
+  Startups: Orbit,
   Education: GraduationCap,
   Restaurants: Utensils,
   "Professional Services": BriefcaseBusiness,

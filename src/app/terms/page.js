@@ -47,15 +47,7 @@ export default function TermsPage() {
     <main className="min-h-screen bg-[#08090B] text-white">
       <Container className="py-24 sm:py-32">
         <div className="mx-auto mb-14 max-w-2xl text-center sm:mb-16">
-          <div className="flex items-center justify-center gap-3">
-            <span className="h-px w-8 bg-[#E5383B]/70" />
-
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
-              Legal
-            </span>
-
-            <span className="h-px w-8 bg-[#E5383B]/70" />
-          </div>
+          
 
           <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
             Terms <span className="text-white/50">&amp; Conditions</span>
