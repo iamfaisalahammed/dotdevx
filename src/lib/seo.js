@@ -1,4 +1,3 @@
-
 import { siteConfig } from "@/config/site";
 
 export function createMetadata({
@@ -6,20 +5,39 @@ export function createMetadata({
   description = siteConfig.description,
   path = "",
   image = "/images/og-image.png",
+  keywords,
+  type = "website",
 }) {
   const baseUrl = siteConfig.url?.replace(/\/+$/, "");
+  const normalizedPath = path.replace(/^\/+|\/+$/g, "");
 
-  const pageUrl = baseUrl
-    ? `${baseUrl}/${path.replace(/^\/+|\/+$/g, "")}`.replace(/\/$/, path ? "" : "/")
-    : undefined;
+  let pageUrl;
+  let imageUrl;
+  let metadataBase;
+
+  if (baseUrl) {
+    try {
+      metadataBase = new URL(`${baseUrl}/`);
+      pageUrl = new URL(normalizedPath, metadataBase).toString();
+
+      if (image) {
+        imageUrl = new URL(image, metadataBase).toString();
+      }
+    } catch {
+      // Ignore invalid website URLs.
+    }
+  }
+
+  const pageTitle = title
+    ? `${title} | ${siteConfig.name}`
+    : siteConfig.name;
 
   const metadata = {
-    title: title
-      ? `${title} | ${siteConfig.name}`
-      : siteConfig.name,
-
+    title: pageTitle,
     description,
     applicationName: siteConfig.name,
+
+    ...(keywords?.length ? { keywords } : {}),
 
     robots: {
       index: true,
@@ -34,41 +52,29 @@ export function createMetadata({
     },
 
     openGraph: {
-      title: title
-        ? `${title} | ${siteConfig.name}`
-        : siteConfig.name,
+      title: pageTitle,
       description,
       siteName: siteConfig.name,
-      type: "website",
+      type,
       ...(pageUrl ? { url: pageUrl } : {}),
-      ...(baseUrl && image
-        ? { images: [{ url: image.startsWith("http") ? image : `${baseUrl}${image.startsWith("/") ? "" : "/"}${image}` }] }
-        : {}),
+      ...(imageUrl ? { images: [{ url: imageUrl }] } : {}),
     },
 
     twitter: {
       card: "summary_large_image",
-      title: title
-        ? `${title} | ${siteConfig.name}`
-        : siteConfig.name,
+      title: pageTitle,
       description,
-      ...(baseUrl && image
-        ? { images: [image.startsWith("http") ? image : `${baseUrl}${image.startsWith("/") ? "" : "/"}${image}`] }
-        : {}),
+      ...(imageUrl ? { images: [imageUrl] } : {}),
     },
   };
 
-  if (baseUrl) {
-    try {
-      metadata.metadataBase = new URL(`${baseUrl}/`);
+  if (metadataBase) {
+    metadata.metadataBase = metadataBase;
 
-      if (pageUrl) {
-        metadata.alternates = {
-          canonical: pageUrl,
-        };
-      }
-    } catch {
-      // Ignore invalid website URLs.
+    if (pageUrl) {
+      metadata.alternates = {
+        canonical: pageUrl,
+      };
     }
   }
 

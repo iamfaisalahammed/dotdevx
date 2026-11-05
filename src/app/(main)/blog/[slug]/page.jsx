@@ -25,29 +25,60 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const blog = blogs.find((b) => b.slug === slug);
+
   if (!blog) return {};
 
+  // Blog-specific SEO data
+  const seoTitle = blog.seo?.title || blog.title;
+  const description = blog.seo?.description || blog.excerpt;
+  const keywords = blog.seo?.keywords;
+
   const url = `${SITE_URL}/blog/${blog.slug}`;
-  const title = `${blog.title} | .DevX`;
+  const title = `${seoTitle} | .DevX`;
+  const image = absolute(blog.coverImage);
 
   return {
     title,
-    description: blog.excerpt,
-    alternates: { canonical: url },
+    description,
+
+    ...(keywords?.length ? { keywords } : {}),
+
+    alternates: {
+      canonical: url,
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+
     openGraph: {
       title,
-      description: blog.excerpt,
+      description,
       url,
       siteName: ".DevX",
       type: "article",
       publishedTime: toISO(blog.date),
-      images: [{ url: absolute(blog.coverImage), alt: blog.title }],
+      images: [
+        {
+          url: image,
+          alt: blog.title,
+        },
+      ],
     },
+
     twitter: {
       card: "summary_large_image",
       title,
-      description: blog.excerpt,
-      images: [absolute(blog.coverImage)],
+      description,
+      images: [image],
     },
   };
 }
@@ -75,12 +106,15 @@ export default async function BlogPost({ params }) {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: blog.title,
-    description: blog.excerpt,
+    description: blog.seo?.description || blog.excerpt,
     image: absolute(blog.coverImage),
     datePublished: toISO(blog.date),
     mainEntityOfPage: `${SITE_URL}/blog/${blog.slug}`,
     author: { "@type": "Person", name: blog.author || ".DevX Team" },
     publisher: { "@type": "Organization", name: ".DevX" },
+    ...(blog.seo?.keywords?.length
+      ? { keywords: blog.seo.keywords.join(", ") }
+      : {}),
   };
 
   return (
@@ -94,7 +128,6 @@ export default async function BlogPost({ params }) {
       <header className="border-b border-white/[0.06] pb-12 pt-28 sm:pb-14 sm:pt-32">
         <Container>
           <div className="mx-auto max-w-3xl">
-          
 
             <span className="block font-mono text-[11px] font-medium uppercase tracking-widest text-white/50">
               {blog.category}

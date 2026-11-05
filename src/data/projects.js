@@ -4,12 +4,12 @@ export const projects = [
     slug: "modern-ecommerce-store",
     title: "Modern E-commerce Store",
     category: "E-commerce",
-    type: "Concept Project",
+    type: "Demo Project",
     description:
-      "A modern online shopping experience designed for product discovery, easy navigation, and a smooth customer journey.",
+      "A modern e-commerce website concept focused on product discovery, intuitive navigation, and a seamless shopping experience.",
     technologies: ["Next.js", "React", "Tailwind CSS"],
     featured: true,
-    image: null,
+    image: "/images/projects/ecommerce.webp",
     liveUrl: "",
   },
   {
@@ -17,12 +17,12 @@ export const projects = [
     slug: "restaurant-website",
     title: "Restaurant Website",
     category: "Restaurant",
-    type: "Concept Project",
+    type: "Demo Project",
     description:
-      "A stylish restaurant website concept featuring menu presentation, restaurant information, and clear contact options.",
+      "A modern restaurant website concept featuring an elegant menu, restaurant details, and convenient customer contact options.",
     technologies: ["React", "Tailwind CSS", "JavaScript"],
     featured: true,
-    image: null,
+    image: "/images/projects/restaurant.webp",
     liveUrl: "",
   },
   {
@@ -30,12 +30,12 @@ export const projects = [
     slug: "corporate-business-website",
     title: "Corporate Business Website",
     category: "Corporate",
-    type: "Concept Project",
+    type: "Demo Project",
     description:
-      "A professional business website concept designed to present company information, services, and business inquiries.",
-    technologies: ["Next.js", "Tailwind CSS", "Lucide React"],
+      "A professional corporate website concept designed to showcase business services, company information, and generate potential business inquiries.",
+    technologies: ["React", "Tailwind CSS", "JavaScript"],
     featured: true,
-    image: null,
+    image: "/images/projects/corporate.webp",
     liveUrl: "",
   },
 ];

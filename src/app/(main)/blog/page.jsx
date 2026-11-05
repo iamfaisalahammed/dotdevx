@@ -1,9 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { blogs } from "@/data/blogs";
+import {  ArrowUpRight } from "lucide-react";
 
-export const metadata = { title: "Blog | .DevX" };
+import { blogs } from "@/data/blogs";
+import { createMetadata } from "@/lib/seo";
+
+export const metadata = createMetadata({
+  title: "Blog",
+  description:
+    "Explore expert insights on website development, React, Next.js, business analytics, custom web applications, and digital solutions for modern businesses.",
+  path: "/blog",
+  image: "/images/og-image.png",
+});
 
 export default async function BlogPage({ searchParams }) {
   // ক্যাটাগরি ফিল্টার (?category=...)

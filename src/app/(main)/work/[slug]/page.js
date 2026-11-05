@@ -1,10 +1,10 @@
 // app/work/[slug]/page.jsx
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 import Container from "@/components/ui/Container";
-import ProjectGallery from "@/components/projects/ProjectGallery";
 
 import { projects } from "@/data/projects";
 import { createMetadata } from "@/lib/seo";
@@ -50,12 +50,19 @@ export default async function ProjectDetailsPage({ params }) {
 
   const hasTech = project.technologies?.length > 0;
 
+  // gallery না থাকলে main image fallback হিসেবে ব্যবহার হবে
+  const galleryImages = project.gallery?.length
+    ? project.gallery
+    : project.image
+      ? [project.image]
+      : [];
+
   return (
-    <main className="relative isolate min-h-screen overflow-hidden bg-[#08090B] text-white">
+    <main className="relative isolate min-h-screen overflow-hidden bg-black text-white">
       {/* Background: খুব হালকা glow আর dot pattern */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-[#E5383B]/[0.07] blur-[140px] sm:h-[520px] sm:w-[720px]"
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[360px] w-[360px] -translate-x-1/2 blur-[140px] sm:h-[520px] sm:w-[720px]"
       />
       <div
         aria-hidden="true"
@@ -172,16 +179,39 @@ export default async function ProjectDetailsPage({ params }) {
           </dl>
         )}
 
-        {/* Gallery (এখন পুরো প্রস্থে) */}
-        <section aria-label={`${project.title} gallery`} className="mt-10 min-w-0 sm:mt-14">
-          <ProjectGallery
-            images={project.gallery || []}
-            title={project.title}
-          />
+        {/* Gallery */}
+        <section
+          aria-label={`${project.title} gallery`}
+          className="mt-10 min-w-0 sm:mt-14"
+        >
+          {galleryImages.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              {galleryImages.map((src, index) => (
+                <div
+                  key={`${src}-${index}`}
+                  className={`relative aspect-[16/10] overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] ${
+                    index === 0 ? "sm:col-span-2" : ""
+                  }`}
+                >
+                  <Image
+                    src={src}
+                    alt={`${project.title} preview ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-white/40">No preview images available.</p>
+          )}
         </section>
 
         {/* Concept note */}
-        {project.type === "Concept Project" && (
+        {(project.type === "Concept Project" ||
+          project.type === "Demo Project") && (
           <p className="mt-10 flex gap-3 rounded-2xl border border-white/10 bg-white/[0.025] p-5 text-xs leading-6 text-white/50 sm:text-sm sm:leading-7">
             <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#E5383B]" />
             This is a concept project created for demonstration purposes. It is
