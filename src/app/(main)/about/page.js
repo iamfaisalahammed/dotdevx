@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Code2, Lightbulb, Target } from "lucide-react";
+import { ArrowUpRight, Code2, Lightbulb, Target } from "lucide-react";
 
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/motion/Reveal";
@@ -35,11 +35,11 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <main className="relative isolate min-h-screen overflow-hidden bg-[#08090B] text-white">
+    <main className="relative isolate min-h-screen overflow-hidden bg-black text-white">
       {/* Background glow and grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-32 top-0 -z-10 h-[420px] w-[420px] animate-pulse rounded-full bg-[#E5383B]/[0.12] blur-[130px] sm:h-[560px] sm:w-[560px]"
+        className="pointer-events-none absolute -left-32 top-0 -z-10 h-[420px] w-[420px] animate-pulse rounded-full blur-[130px] sm:h-[560px] sm:w-[560px]"
       />
 
       <div
@@ -53,20 +53,6 @@ export default function AboutPage() {
       />
 
       <Container className="py-20 sm:py-28 lg:py-32">
-        {/* Back to Home বাটন */}
-        <Reveal>
-          <Link
-            href="/"
-            className="group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/65 transition-all hover:border-[#E5383B]/60 hover:text-white sm:mb-10"
-          >
-            <ArrowLeft
-              size={15}
-              className="transition-transform duration-300 group-hover:-translate-x-0.5"
-            />
-            Back to Home
-          </Link>
-        </Reveal>
-
         {/* Heading */}
         <Reveal className="max-w-3xl">
           <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight min-[400px]:text-5xl sm:text-6xl lg:text-7xl">
@@ -165,21 +151,12 @@ export default function AboutPage() {
 
           <Link
             href="/contact"
-            className="group relative inline-flex w-fit items-center gap-3 overflow-hidden rounded-full bg-[#E5383B] py-4 pl-7 pr-5 text-sm font-semibold text-white shadow-[0_12px_40px_-10px_#E5383B] transition-shadow duration-300 hover:shadow-[0_16px_50px_-8px_#E5383B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            className="group inline-flex w-fit shrink-0 items-center gap-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
-            <span
-              aria-hidden="true"
-              className="absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/25 transition-all duration-700 group-hover:left-[150%]"
-            />
-
-            <span className="relative">
-              Let&apos;s Discuss Your Project
+            <span className="relative">Let&apos;s Discuss Your Project</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E5383B] transition-transform duration-300 group-hover:rotate-45">
+              <ArrowUpRight size={16} />
             </span>
-
-            <ArrowUpRight
-              size={18}
-              className="relative transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
           </Link>
         </Reveal>
       </Container>

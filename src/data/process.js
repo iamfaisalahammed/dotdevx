@@ -21,7 +21,7 @@ export const developmentProcess = [
     step: "04",
     title: "Development",
     description:
-      "We build your website using modern technologies and reusable components.",
+      "We build your website using modern technologies and clean, scalable code.",
   },
   {
     step: "05",
@@ -35,10 +35,10 @@ export const developmentProcess = [
     description:
       "We prepare the website for deployment and help make it available online.",
   },
-  {
-    step: "07",
-    title: "Support",
-    description:
-      "We discuss post-launch support and future improvements based on your needs.",
-  },
+ {
+  step: "07",
+  title: "Support",
+  description:
+    "We provide post-launch support to ensure everything runs smoothly.",
+},
 ];

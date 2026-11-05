@@ -25,11 +25,11 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative overflow-hidden border-t border-white/[0.06] bg-[#0C0E10] py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden border-t border-white/[0.06] bg-black py-20 sm:py-24 lg:py-28"
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-40 bottom-0 h-[400px] w-[400px] rounded-full bg-[#E5383B]/[0.06] blur-[120px]"
+        className="pointer-events-none absolute -left-40 bottom-0 h-[400px] w-[400px] rounded-full  blur-[120px]"
       />
 
       <Container>

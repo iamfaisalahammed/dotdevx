@@ -73,7 +73,7 @@ export default function About() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 top-10 h-[420px] w-[420px] rounded-full bg-[#E5383B]/[0.06] blur-[120px]"
+        className="pointer-events-none absolute -right-40 top-10 h-[420px] w-[420px] rounded-full  blur-[120px]"
       />
 
       <Container>

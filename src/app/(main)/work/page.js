@@ -1,7 +1,3 @@
-// app/work/page.jsx
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-
 import Container from "@/components/ui/Container";
 import ProjectCard from "@/components/projects/ProjectCard";
 import Reveal from "@/components/motion/Reveal";
@@ -19,11 +15,11 @@ export const metadata = createMetadata({
 
 export default function WorkPage() {
   return (
-    <main className="relative isolate min-h-screen overflow-hidden bg-[#08090B] text-white">
+    <main className="relative isolate min-h-screen overflow-hidden bg-black text-white">
       {/* Background: হালকা glow + dot pattern */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[320px] w-[320px] -translate-x-1/2 rounded-full bg-[#E5383B]/[0.07] blur-[140px] sm:h-[480px] sm:w-[720px]"
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[320px] w-[320px] -translate-x-1/2 rounded-full bg-white/[0.04] blur-[140px] sm:h-[480px] sm:w-[720px]"
       />
       <div
         aria-hidden="true"
@@ -36,19 +32,7 @@ export default function WorkPage() {
       />
 
       <Container className="py-20 sm:py-28 lg:py-32">
-        {/* Back to Home বাটন */}
-        <Reveal>
-          <Link
-            href="/"
-            className="group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/65 transition-all hover:border-[#E5383B]/60 hover:text-white sm:mb-10"
-          >
-            <ArrowLeft
-              size={15}
-              className="transition-transform duration-300 group-hover:-translate-x-0.5"
-            />
-            Back to Home
-          </Link>
-        </Reveal>
+     
 
         {/* Header — Services সেকশনের প্যাটার্ন: বামে সাজানো, লেবেল ছাড়া */}
         <Reveal>
@@ -88,7 +72,7 @@ export default function WorkPage() {
           ) : (
             <div className="max-w-xl rounded-3xl border border-white/10 bg-white/[0.025] px-6 py-14 text-center">
               <h2 className="flex items-center justify-center gap-2 text-xl font-semibold">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#E5383B]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-white/60" />
                 Portfolio coming soon
               </h2>
               <p className="mt-3 text-sm text-white/55">

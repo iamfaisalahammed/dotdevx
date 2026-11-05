@@ -37,12 +37,12 @@ export default function Industries() {
   return (
     <section
       id="industries"
-      className="relative overflow-hidden border-t border-white/15 bg-[#0C0E10] py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden border-t border-white/15 bg-[#08090B] py-20 sm:py-24 lg:py-28"
     >
       {/* ডান দিকের কোণায় হালকা আভা */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full bg-[#E5383B]/[0.06] blur-[120px]"
+        className="pointer-events-none absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full  blur-[120px]"
       />
 
       <Container>
@@ -68,11 +68,7 @@ export default function Industries() {
                 {...reveal((i % 3) * 0.07)}
                 className="group relative overflow-hidden border-b border-white/10"
               >
-                {/* hover করলে বাম থেকে হালকা লাল রঙ ছড়িয়ে যাবে */}
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-0 origin-left scale-x-0 bg-gradient-to-r from-[#E5383B]/20 via-[#E5383B]/5 to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100 group-active:scale-x-100"
-                />
+               
 
                 <div className="relative grid gap-3 px-1 py-6 sm:grid-cols-2 sm:items-center sm:gap-10 sm:px-3 sm:py-8 lg:grid-cols-[5fr_6fr]">
                   <div className="flex items-center gap-4 transition-transform duration-500 ease-out sm:gap-5 sm:group-hover:translate-x-2">

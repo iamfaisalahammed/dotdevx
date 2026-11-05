@@ -36,51 +36,51 @@ const snippets = [
   {
     file: "agency.config.js",
     lines: [
-      L(["dim", "// .DevX — we build, you grow"]),
+      L(["dim", "// .DevX — Built for growth"]),
       L(["key", "const "], ["name", "agency"], ["mute", " = {"]),
       L(["mute", "  name: "], ["str", '".DevX"'], ["mute", ","]),
-      L(["mute", "  home: "], ["str", '"Bangladesh"'], ["mute", ","]),
-      L(["mute", "  reach: "], ["str", '"Worldwide"'], ["mute", ","]),
-      L(["mute", "  promise: "], ["str", '"Clean code. Bold design."'], ["mute", ","]),
+      L(["mute", "  basedIn: "], ["str", '"Bangladesh"'], ["mute", ","]),
+      L(["mute", "  serving: "], ["str", '"Worldwide"'], ["mute", ","]),
+      L(["mute", "  focus: "], ["str", '"Design. Develop. Deliver."'], ["mute", ","]),
       L(["mute", "};"]),
     ],
   },
-  {
-    file: "launch.js",
-    lines: [
-      L(["dim", "// From idea to live website"]),
-      L(["key", "function "], ["fn", "launch"], ["mute", "(idea) {"]),
-      L(["key", "  return "], ["name", "design"], ["mute", "(idea)"]),
-      L(["mute", "    ."], ["fn", "build"], ["mute", "()"]),
-      L(["mute", "    ."], ["fn", "optimize"], ["mute", "()"]),
-      L(["mute", "    ."], ["fn", "deploy"], ["mute", "(); "], ["dim", "// you grow"]),
-      L(["mute", "}"]),
-    ],
-  },
-  {
-    file: "services.js",
-    lines: [
-      L(["dim", "// What we create for you"]),
-      L(["key", "export const "], ["name", "services"], ["mute", " = ["]),
-      L(["str", '  "Business Websites"'], ["mute", ","]),
-      L(["str", '  "E-commerce"'], ["mute", ","]),
-      L(["str", '  "Custom Solutions"'], ["mute", ","]),
-      L(["mute", "];"]),
-      L(["dim", ""]),
-    ],
-  },
-  {
-    file: "quality.js",
-    lines: [
-      L(["dim", "// Every project, every time"]),
-      L(["key", "const "], ["name", "quality"], ["mute", " = {"]),
-      L(["mute", "  fast: "], ["val", "true"], ["mute", ","]),
-      L(["mute", "  responsive: "], ["val", "true"], ["mute", ","]),
-      L(["mute", "  seoReady: "], ["val", "true"], ["mute", ","]),
-      L(["mute", "  madeToGrow: "], ["val", "true"], ["mute", ","]),
-      L(["mute", "};"]),
-    ],
-  },
+{
+  file: "launch.js",
+  lines: [
+    L(["dim", "// From idea to live website"]),
+    L(["key", "function "], ["fn", "launch"], ["mute", "(idea) {"]),
+    L(["key", "  return "], ["name", "plan"], ["mute", "(idea)"]),
+    L(["mute", "    ."], ["fn", "design"], ["mute", "()"]),
+    L(["mute", "    ."], ["fn", "develop"], ["mute", "()"]),
+    L(["mute", "    ."], ["fn", "optimize"], ["mute", "()"]),
+    L(["mute", "    ."], ["fn", "deploy"], ["mute", "(); "], ["dim", "// ready to grow"]),
+    L(["mute", "}"]),
+  ],
+},
+{
+  file: "services.js",
+  lines: [
+    L(["dim", "// What we create for you"]),
+    L(["key", "export const "], ["name", "services"], ["mute", " = ["]),
+    L(["str", '  "Business Websites"'], ["mute", ","]),
+    L(["str", '  "E-commerce Websites"'], ["mute", ","]),
+    L(["str", '  "Custom Web Solutions"'], ["mute", ","]),
+    L(["mute", "];"]),
+    L(["dim", ""]),
+  ],
+},{
+  file: "quality.js",
+  lines: [
+    L(["dim", "// Built with quality in mind"]),
+    L(["key", "const "], ["name", "quality"], ["mute", " = {"]),
+    L(["mute", "  performance: "], ["val", "true"], ["mute", ","]),
+    L(["mute", "  responsive: "], ["val", "true"], ["mute", ","]),
+    L(["mute", "  cleanCode: "], ["val", "true"], ["mute", ","]),
+    L(["mute", "  scalability: "], ["val", "true"], ["mute", ","]),
+    L(["mute", "};"]),
+  ],
+},
 ];
 
 function getLineLengths(snippet) {
@@ -148,7 +148,7 @@ function CodePanel() {
     firstIncomplete === -1 ? snippet.lines.length - 1 : firstIncomplete;
 
   return (
-    <div className="relative z-10 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0A0B0E]/85 shadow-[0_30px_70px_-30px_rgba(229,37,42,0.35)] backdrop-blur-md">
+    <div className="relative z-10 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0A0B0E]/85 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-md">
       {/* ওপরের লাল আলোর রেখা */}
       <span
         aria-hidden="true"
@@ -622,9 +622,9 @@ function FloatingSymbols() {
 
 const chips = [
   // top/left = বাঁকা রেখার ওপর বিন্দু (container-এর শতাংশে)
-  { label: "Fast", top: "10%", left: "25%", delay: 0 },
-  { label: "SEO Ready", top: "50%", left: "58%", delay: 0.15 },
-  { label: "Responsive", top: "90%", left: "25%", delay: 0.3 },
+ { label: "Modern Design", top: "10%", left: "25%", delay: 0 },
+{ label: "Reliable", top: "50%", left: "58%", delay: 0.15 },
+{ label: "User Friendly", top: "90%", left: "25%", delay: 0.3 },
 ];
 
 function Chip({ label, delay, reduce }) {
@@ -641,9 +641,9 @@ function Chip({ label, delay, reduce }) {
         scale: { duration: 0.5, delay: 0.7 + delay },
         y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay },
       }}
-      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-[#0A0B0E]/80 px-3.5 py-2 text-[11px] font-medium text-white/80 shadow-[0_8px_24px_-12px_rgba(229,37,42,0.5)] backdrop-blur-md sm:text-xs"
+      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-[#0A0B0E]/80 px-3.5 py-2 text-[11px] font-medium text-white/80 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md sm:text-xs"
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]" />
+      <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
       {label}
     </motion.span>
   );
@@ -724,7 +724,6 @@ const marqueeItems = [
   "E-commerce",
   "Custom Solutions",
   "Landing Pages",
-  "SEO Ready",
   "Fast & Responsive",
 ];
 
@@ -831,14 +830,6 @@ function CometCursor() {
         const c = k > 0.55 ? mix(SOFT, WHITE, (k - 0.55) / 0.45) : mix(RED, SOFT, k / 0.55);
         const rgb = `${c[0] | 0},${c[1] | 0},${c[2] | 0}`;
 
-        // হালকা আভা
-        ctx.strokeStyle = `rgba(${rgb},${Math.pow(k, 1.3) * 0.12})`;
-        ctx.lineWidth = (0.6 + k * 3.4) * 3.2;
-        ctx.beginPath();
-        ctx.moveTo(p0.x, p0.y);
-        ctx.lineTo(p1.x, p1.y);
-        ctx.stroke();
-
         // মূল লেজ
         ctx.strokeStyle = `rgba(${rgb},${Math.pow(k, 1.3) * 0.9})`;
         ctx.lineWidth = 0.6 + k * 3.4;
@@ -854,9 +845,9 @@ function CometCursor() {
         const pulse = 6 + Math.sin(now * 0.006) * 1.5;
 
         const g = ctx.createRadialGradient(x, y, 0, x, y, 18);
-        g.addColorStop(0, `rgba(255,255,255,${0.45 * a})`);
-        g.addColorStop(0.4, `rgba(255,140,142,${0.14 * a})`);
-        g.addColorStop(1, "rgba(229,37,42,0)");
+        g.addColorStop(0, `rgba(255,255,255,${0.35 * a})`);
+        g.addColorStop(0.4, `rgba(255,255,255,${0.08 * a})`);
+        g.addColorStop(1, "rgba(255,255,255,0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(x, y, 18, 0, Math.PI * 2);
@@ -943,7 +934,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative isolate overflow-hidden bg-[#08090B] text-white"
+      className="relative isolate overflow-hidden bg-black text-white"
       style={{
         "--accent": ACCENT,
         "--accent-soft": ACCENT_SOFT,
@@ -971,19 +962,7 @@ export default function Hero() {
         aria-hidden="true"
         animate={reduce ? undefined : { x: [0, -30, 0], y: [0, 40, 0] }}
         transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute right-[30%] top-[-12%] -z-10 h-[240px] w-[320px] rounded-full bg-white/[0.04] blur-[100px] sm:h-[360px] sm:w-[520px] sm:blur-[110px]"
-      />
-
-      {/* ব্যানারের UI-র পেছনে হালকা লাল আভা — গ্যালাক্সি থেকে দূরে, লেখা আর এডিটরের নিচে */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-40 left-[-10%] -z-10 h-[320px] w-[420px] rounded-full blur-[120px] sm:h-[420px] sm:w-[560px]"
-        style={{ background: "radial-gradient(circle, rgba(229,37,42,0.14), transparent 70%)" }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-48 right-[-12%] -z-10 h-[280px] w-[380px] rounded-full blur-[120px] sm:h-[380px] sm:w-[500px]"
-        style={{ background: "radial-gradient(circle, rgba(229,37,42,0.10), transparent 70%)" }}
+        className="pointer-events-none absolute right-[30%] top-[-12%] -z-10 h-[240px] w-[320px] rounded-full bg-black blur-[100px] sm:h-[360px] sm:w-[520px] sm:blur-[110px]"
       />
 
       <StarField />
@@ -1123,7 +1102,6 @@ export default function Hero() {
           <HeroVisual />
         </div>
       </Container>
-
       <ServiceMarquee />
     </section>
   );

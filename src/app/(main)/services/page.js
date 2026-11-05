@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import {  ArrowUpRight } from "lucide-react";
 
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/motion/Reveal";
@@ -19,19 +19,6 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-black text-white">
       <Container className="py-24 sm:py-32">
-        {/* Back to Home বাটন */}
-        <Reveal>
-          <Link
-            href="/"
-            className="group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/65 transition-all hover:border-[#E5252A]/60 hover:text-white sm:mb-10"
-          >
-            <ArrowLeft
-              size={15}
-              className="transition-transform duration-300 group-hover:-translate-x-0.5"
-            />
-            Back to Home
-          </Link>
-        </Reveal>
 
         <div className="grid gap-12 lg:grid-cols-[360px_1fr] lg:gap-20">
           {/* Left: sticky heading */}

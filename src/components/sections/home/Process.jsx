@@ -41,7 +41,7 @@ export default function Process() {
   return (
     <section
       id="process"
-      className="relative overflow-hidden border-t border-white/15 bg-[#08090B] py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden border-t border-white/15 bg-black py-20 sm:py-24 lg:py-28"
     >
       <Container>
         <motion.div {...reveal()} className="mb-14 max-w-2xl sm:mb-16">

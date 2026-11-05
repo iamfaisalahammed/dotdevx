@@ -1,185 +1,167 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Check, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
+
+import Container from "@/components/ui/Container";
+import Reveal from "@/components/motion/Reveal";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com";
 
 export default function ServiceDetails({ service }) {
+  const reduce = useReducedMotion();
+  const mobileLineRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: mobileLineRef,
+    offset: ["start 75%", "end 65%"],
+  });
+
+  const mobileLineProgress = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0%", "100%"]
+  );
+
   if (!service) return null;
 
   const features = service.features ?? [];
 
+  // SEO: structured data
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.description,
+    url: `${SITE_URL}/services/${service.slug}`,
+    areaServed: ["Bangladesh", "Worldwide"],
+    provider: { "@type": "Organization", name: ".DevX", url: SITE_URL },
+  };
+
   return (
-    <main className="min-h-screen bg-[#08090B] text-white selection:bg-[#E5383B]/30">
-      <section className="relative isolate overflow-hidden">
-        {/* Background: grid + glows */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,#000_40%,transparent_100%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-48 left-1/2 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[#E5383B]/[0.14] blur-[150px]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 right-[-10%] -z-10 h-[360px] w-[360px] rounded-full bg-[#E5383B]/[0.06] blur-[130px]"
-        />
+    <main className="min-h-screen bg-black text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          {/* Back navigation */}
-          <Link
-            href="/services"
-            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white/60 backdrop-blur transition-all duration-300 hover:border-[#E5383B]/40 hover:bg-white/[0.06] hover:text-white"
-          >
-            <ArrowLeft
-              size={16}
-              className="transition-transform duration-300 group-hover:-translate-x-1"
-            />
-            All Services
-          </Link>
+      <Container className="py-24 sm:py-32">
+        <div className="grid gap-12 lg:grid-cols-[360px_1fr] lg:gap-20">
+          {/* বাঁয়ে: sticky হেডিং */}
+          <Reveal>
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <Link
+                href="/services"
+                className="group inline-flex items-center gap-2 text-sm text-white/50 transition-colors duration-300 hover:text-white"
+              >
+                <ArrowLeft
+                  size={16}
+                  className="transition-transform duration-300 group-hover:-translate-x-1"
+                />
+                All Services
+              </Link>
 
-          {/* Hero */}
-          <div className="mt-14 grid items-start gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#E5383B]/25 bg-[#E5383B]/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-[#FF6B6F]">
-                <Sparkles size={13} />
-                Our Services
-              </span>
+              <div className="mt-10 flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-[#E5252A]" />
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E5252A]">
+                  Our Services
+                </span>
+              </div>
 
-              <h1 className="mt-6 bg-gradient-to-b from-white to-white/60 bg-clip-text text-4xl font-bold leading-[1.1] tracking-tight text-transparent sm:text-5xl lg:text-6xl">
+              <h1 className="mt-5 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
                 {service.title}
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/55 sm:text-lg">
+              <p className="mt-5 max-w-sm text-sm leading-7 text-[#A7B0AC] sm:text-base">
                 {service.description}
               </p>
-
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Link
-                  href="/contact"
-                  className="group inline-flex items-center gap-2 rounded-full bg-[#E5383B] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_10px_40px_-10px_rgba(229,56,59,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F0484B] hover:shadow-[0_14px_44px_-8px_rgba(229,56,59,0.85)]"
-                >
-                  Discuss Your Project
-                  <ArrowUpRight
-                    size={18}
-                    className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </Link>
-
-                <Link
-                  href="/services"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 px-7 py-3.5 text-sm font-semibold text-white/80 transition-all duration-300 hover:border-white/25 hover:bg-white/[0.05] hover:text-white"
-                >
-                  Browse Services
-                </Link>
-              </div>
             </div>
+          </Reveal>
 
-            {/* Glass summary card */}
-            <aside className="relative rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-7 backdrop-blur-xl lg:sticky lg:top-24">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-8 -top-px h-px bg-gradient-to-r from-transparent via-[#E5383B]/70 to-transparent"
-              />
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
-                Service Overview
+          {/* ডানে: নম্বরযুক্ত ফিচার সারি */}
+          <div>
+            <Reveal>
+              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
+                What&apos;s included
               </p>
-              <h2 className="mt-3 text-xl font-semibold tracking-tight">
-                {service.title}
-              </h2>
+            </Reveal>
 
-              {features.length > 0 && (
-                <div className="mt-6 flex items-end gap-3 border-t border-white/10 pt-6">
-                  <span className="text-5xl font-bold tracking-tight text-white">
-                    {String(features.length).padStart(2, "0")}
-                  </span>
-                  <span className="pb-1.5 text-sm text-white/50">
-                    deliverables included
-                  </span>
-                </div>
+            <div ref={mobileLineRef} className="relative">
+              {/* Mobile scroll-based glowing line */}
+              <span
+                aria-hidden="true"
+                className="absolute bottom-2 left-[6px] top-2 w-px bg-white/10 lg:hidden"
+              />
+
+              {!reduce && (
+                <motion.span
+                  aria-hidden="true"
+                  style={{ height: mobileLineProgress }}
+                  className="absolute left-[5px] top-2 w-[3px] rounded-full bg-[#E5252A] shadow-[0_0_8px_#E5252A,0_0_18px_#E5252A] lg:hidden"
+                />
               )}
 
-              <Link
-                href="/contact"
-                className="mt-7 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:border-[#E5383B]/50 hover:bg-[#E5383B] "
-              >
-                Get a Free Quote
-                <ArrowUpRight size={16} />
-              </Link>
-            </aside>
-          </div>
-
-          {/* What's included */}
-          {features.length > 0 && (
-            <div className="mt-24">
-              <div className="mb-10 max-w-xl">
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FF6B6F]/80">
-                  What You Get
-                </span>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                  What&apos;s Included
-                  <span className="text-[#E5383B]">.</span>
-                </h2>
-              </div>
-
-              <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="border-t border-white/15 pl-8 lg:pl-0">
                 {features.map((feature, index) => (
-                  <li
-                    key={feature}
-                    className="group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0E0F12] p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#E5383B]/40 hover:shadow-[0_20px_50px_-20px_rgba(229,56,59,0.35)]"
-                  >
-                    {/* hover glow */}
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#E5383B]/0 blur-3xl transition-all duration-500 group-hover:bg-[#E5383B]/25"
-                    />
+                  <Reveal key={feature} delay={index * 0.05}>
+                    <div className="group relative flex items-start gap-5 border-b border-white/15 py-8 transition-colors duration-300 hover:border-[#E5252A] sm:gap-8">
+                      {/* Mobile dot */}
+                      <span
+                        aria-hidden="true"
+                        className="absolute -left-8 top-9 h-3.5 w-3.5 rounded-full border border-[#E5252A] bg-black lg:hidden"
+                      />
 
-                    <div className="relative flex items-start justify-between">
-                      <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#E5383B]/20 bg-[#E5383B]/10 text-[#FF6B6F] transition-all duration-500 group-hover:border-[#E5383B] group-hover:bg-[#E5383B] group-hover:text-white">
-                        <Check size={20} strokeWidth={2.5} />
-                      </span>
-                      <span className="text-sm font-semibold tabular-nums text-white/20 transition-colors duration-500 group-hover:text-white/40">
+                      {/* Number */}
+                      <span className="pt-1 text-sm font-semibold text-white/30 transition-colors duration-300 group-hover:text-[#E5252A]">
                         {String(index + 1).padStart(2, "0")}
                       </span>
+
+                      {/* Feature text */}
+                      <p className="flex-1 text-lg leading-8 text-white/85 sm:text-xl sm:leading-9">
+                        {feature}
+                      </p>
                     </div>
-
-                    <p className="relative mt-6 text-[15px] leading-7 text-white/65 transition-colors duration-300 group-hover:text-white">
-                      {feature}
-                    </p>
-                  </li>
+                  </Reveal>
                 ))}
-              </ul>
-            </div>
-          )}
 
-          {/* Bottom CTA */}
-          <div className="relative mt-24 overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#E5383B]/[0.16] via-[#0E0F12] to-[#0E0F12] p-8 sm:p-12">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#E5383B]/20 blur-[90px]"
-            />
-            <div className="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-              <div className="max-w-xl">
-                <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                  Ready to start your project?
-                </h3>
-                <p className="mt-3 text-white/55">
-                  Tell us what you&apos;re building and we&apos;ll get back to you with
-                  a clear plan and timeline.
-                </p>
+                {/* Empty state */}
+                {features.length === 0 && (
+                  <p className="py-16 text-center text-white/50">
+                    Details will be available soon.
+                  </p>
+                )}
               </div>
-              <Link
-                href="/contact"
-                className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-semibold text-[#08090B] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#FF6B6F] hover:text-white"
-              >
-                Let&apos;s Talk
-                <ArrowUpRight
-                  size={18}
-                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </Link>
             </div>
+
+            {/* Bottom CTA */}
+            <Reveal>
+              <div className="mt-16 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+                <div>
+                  <h3 className="text-lg font-semibold text-white sm:text-xl">
+                    Ready to start your project?
+                  </h3>
+                  <p className="mt-2 max-w-md text-sm leading-7 text-[#A7B0AC]">
+                    Tell us what you&apos;re building and we&apos;ll get back to
+                    you with a clear plan and timeline.
+                  </p>
+                </div>
+
+                <Link
+                  href="/contact"
+                  className="group inline-flex w-fit shrink-0 items-center gap-3 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                >
+                  Let&apos;s Talk
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E5252A] transition-transform duration-300 group-hover:rotate-45">
+                    <ArrowUpRight size={16} />
+                  </span>
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </div>
-      </section>
+      </Container>
     </main>
   );
 }

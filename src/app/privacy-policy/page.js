@@ -1,6 +1,7 @@
-
 import Container from "@/components/ui/Container";
 import { createMetadata } from "@/lib/seo";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = createMetadata({
   title: "Privacy Policy",
@@ -23,7 +24,7 @@ const sections = [
   {
     title: "Third-Party Services",
     content:
-      "Communications through WhatsApp, email, or other external services are subject to their respective privacy policies.",
+      "We may use third-party services for website analytics, communication, and other functionality. These services may process information according to their own privacy policies and terms.",
   },
   {
     title: "Data Storage",
@@ -33,7 +34,7 @@ const sections = [
   {
     title: "Cookies & Analytics",
     content:
-      "Our website may use analytics and technical tools to understand website usage and improve user experience.",
+      "We may use cookies, analytics tools, and similar technologies to understand website usage, monitor performance, and improve user experience. These tools may collect technical information such as browser type, device details, and website interactions.",
   },
   {
     title: "Policy Updates",
@@ -52,16 +53,30 @@ export default function PrivacyPolicyPage() {
     <main className="min-h-screen bg-[#08090B] text-white">
       <Container className="py-24 sm:py-32">
         {/* Page Heading */}
-        <div className="mx-auto mb-14 max-w-2xl text-center sm:mb-16">
+        <div className="mx-auto mb-14 max-w-3xl sm:mb-16">
+          {/* Back to Home Button */}
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-gray-300 transition hover:border-red-500/60 hover:text-white"
+          >
+            <ArrowLeft
+              size={16}
+              className="transition group-hover:-translate-x-1"
+            />
+            Back to Home
+          </Link>
 
-          <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Privacy <span className="text-white/50">Policy</span>
-          </h1>
+          {/* Centered Title & Description */}
+          <div className="text-center">
+            <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Privacy <span className="text-white/50">Policy</span>
+            </h1>
 
-          <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">
-            How we handle information shared through our website and
-            communication channels.
-          </p>
+            <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">
+              How we handle information shared through our website and
+              communication channels.
+            </p>
+          </div>
         </div>
 
         {/* Policy Sections */}

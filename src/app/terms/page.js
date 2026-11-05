@@ -1,6 +1,7 @@
-
 import Container from "@/components/ui/Container";
 import { createMetadata } from "@/lib/seo";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = createMetadata({
   title: "Terms and Conditions",
@@ -28,7 +29,7 @@ const sections = [
   {
     title: "Intellectual Property",
     content:
-      "Ownership and usage rights for project deliverables will be agreed upon between both parties.",
+      "Upon completion and full payment, clients receive ownership of the project deliverables, including the complete source code and project files. Third-party assets and services remain subject to their respective licenses and terms.",
   },
   {
     title: "Third-Party Services",
@@ -46,18 +47,33 @@ export default function TermsPage() {
   return (
     <main className="min-h-screen bg-[#08090B] text-white">
       <Container className="py-24 sm:py-32">
-        <div className="mx-auto mb-14 max-w-2xl text-center sm:mb-16">
-          
+        {/* Page Heading */}
+        <div className="mx-auto mb-14 max-w-3xl sm:mb-16">
+          {/* Back to Home Button */}
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-gray-300 transition hover:border-red-500/60 hover:text-white"
+          >
+            <ArrowLeft
+              size={16}
+              className="transition group-hover:-translate-x-1"
+            />
+            Back to Home
+          </Link>
 
-          <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Terms <span className="text-white/50">&amp; Conditions</span>
-          </h1>
+          {/* Centered Title & Description */}
+          <div className="text-center">
+            <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Terms <span className="text-white/50">&amp; Conditions</span>
+            </h1>
 
-          <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">
-            General terms for using our website and services.
-          </p>
+            <p className="mt-5 text-sm leading-7 text-white/55 sm:text-base">
+              General terms for using our website and services.
+            </p>
+          </div>
         </div>
 
+        {/* Terms Sections */}
         <div className="mx-auto max-w-3xl border-t border-white/15">
           {sections.map((section) => (
             <section

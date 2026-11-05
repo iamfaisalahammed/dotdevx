@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import {
   Mail,
@@ -107,11 +106,11 @@ export default function ContactPage() {
   const { contact } = siteConfig;
 
   return (
-    <main className="relative isolate min-h-screen overflow-hidden bg-[#08090B] text-white">
+    <main className="relative isolate min-h-screen overflow-hidden bg-black text-white">
       {/* Background glow and grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-32 -top-20 -z-10 h-[420px] w-[420px] animate-pulse rounded-full bg-[#E5383B]/[0.14] blur-[130px] sm:h-[560px] sm:w-[560px]"
+        className="pointer-events-none absolute -right-32 -top-20 -z-10 h-[420px] w-[420px] animate-pulse rounded-full blur-[130px] sm:h-[560px] sm:w-[560px]"
       />
 
       <div
@@ -263,19 +262,19 @@ export default function ContactPage() {
 
           {/* Inquiry form */}
           <Reveal delay={0.2}>
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_30px_80px_-40px_rgba(229,56,59,0.5)] backdrop-blur-xl sm:p-8 lg:p-10">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.6)] backdrop-blur-xl sm:p-8 lg:p-10">
               <span
                 aria-hidden="true"
-                className="absolute inset-x-10 -top-px h-px bg-gradient-to-r from-transparent via-[#E5383B] to-transparent"
+                className="absolute inset-x-10 -top-px h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
               />
 
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#E5383B]/20 blur-[90px]"
+                className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/[0.06] blur-[90px]"
               />
 
               <div className="relative">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E5383B] text-white shadow-[0_10px_30px_-10px_#E5383B]">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#08090B] shadow-[0_10px_30px_-10px_rgba(255,255,255,0.35)]">
                   <Send size={19} />
                 </span>
 

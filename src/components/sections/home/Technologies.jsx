@@ -33,11 +33,11 @@ export default function Technologies() {
   return (
     <section
       id="technologies"
-      className="relative overflow-hidden border-t border-white/[0.06] bg-[#08090B] py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden border-t border-white/[0.06] bg-black py-20 sm:py-24 lg:py-28"
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-[#E5383B]/[0.06] blur-[120px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-[300px] w-[600px] -translate-x-1/2 rounded-full  blur-[120px]"
       />
 
       <Container>

@@ -33,7 +33,7 @@ export default function Footer() {
   );
 
   return (
-    <footer className="border-t border-[#E5383B]/40 bg-[#08090B] text-white">
+    <footer className="border-t border-white/40 bg- text-white">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-6 text-xs text-white/40 sm:px-6 md:flex-row md:justify-between lg:px-8">
         <div className="flex items-center gap-3">
           <Link

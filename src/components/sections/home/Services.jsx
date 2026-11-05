@@ -9,7 +9,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="border-t border-white/[0.06] bg-[#0C0E10] py-20 sm:py-24 lg:py-28"
+      className="border-t border-white/15 bg-[#08090B] py-20 sm:py-24 lg:py-28"
     >
       <Container>
         {/* হেডিং — Technologies সেকশনের প্যাটার্ন: বামে সাজানো, লেবেল ছাড়া */}

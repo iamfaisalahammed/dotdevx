@@ -32,11 +32,11 @@ export const faqs = [
   {
     question: "Will I own my website after completion?",
     answer:
-      "Project ownership, source code delivery, and access arrangements will be clearly agreed upon before development begins.",
+      "Yes! Once the project is completed and full payment is received, you will receive the complete source code and project files, giving you full ownership and control of your website.",
   },
   {
     question: "Do you provide support after launch?",
     answer:
-      "Post-launch support and maintenance can be discussed and agreed upon according to your project requirements.",
+      "Yes! Every project includes 14 days of free post-launch bug-fixing support to ensure everything works as expected.",
   },
 ];

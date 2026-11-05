@@ -19,6 +19,10 @@ export const navigation = [
     name: "Contact",
     href: "/contact",
   },
+  {
+    name: "Blog",
+    href: "/blog",
+  }
 ];
 
 export const navigationCTA = {

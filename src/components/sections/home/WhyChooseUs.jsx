@@ -33,9 +33,9 @@ const reasons = [
   },
   {
     icon: MessageCircle,
-    title: "Clear Communication",
+    title: "Client-First Approach",
     description:
-      "We keep project discussions and expectations clear throughout the development process.",
+      "We listen to your ideas and keep you informed at every stage of your project.",
   },
   {
     icon: Code2,
@@ -45,9 +45,8 @@ const reasons = [
   },
   {
     icon: Headset,
-    title: "Post-Launch Planning",
-    description:
-      "We discuss maintenance, support, and future improvements after your website launches.",
+    title: "Post-Launch Assistance",
+    description: "We help ensure your website runs smoothly after launch.",
   },
 ];
 
@@ -65,17 +64,20 @@ export default function WhyChooseUs() {
   });
 
   return (
-    <section className="relative overflow-hidden border-t border-white/[0.06] bg-[#0C0E10] py-20 sm:py-24 lg:py-28">
+    <section className="relative overflow-hidden border-t border-white/15 bg-[#08090B] py-20 sm:py-24 lg:py-28">
       {/* কোণার দিকে খুব হালকা একটা লাল আভা */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-[#E5383B]/[0.07] blur-[120px]"
+        className="pointer-events-none absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full  blur-[120px]"
       />
 
       <Container>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
           {/* বামে হেডিং — বড় স্ক্রিনে স্ক্রল করলেও আটকে থাকবে */}
-          <motion.div {...reveal()} className="lg:sticky lg:top-28 lg:self-start">
+          <motion.div
+            {...reveal()}
+            className="lg:sticky lg:top-28 lg:self-start"
+          >
             <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl">
               More than
               <br />
