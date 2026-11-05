@@ -33,7 +33,7 @@ export const projects = [
     type: "Demo Project",
     description:
       "A professional corporate website concept designed to showcase business services, company information, and generate potential business inquiries.",
-    technologies: ["React", "Tailwind CSS", "JavaScript"],
+    technologies: ["React", "Tailwind CSS", "JavaScript", "Node.js", "Express.js", "MongoDB"],
     featured: true,
     image: "/images/projects/corporate.webp",
     liveUrl: "",
