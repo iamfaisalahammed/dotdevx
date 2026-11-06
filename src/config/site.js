@@ -26,7 +26,7 @@ export const siteConfig = {
   contact: {
     email: "",
     phone: "",
-    whatsapp: "8801820037321",
+    whatsapp: "01977037321",
     location: "Bangladesh",
   },
 

@@ -22,8 +22,8 @@ export const metadata = createMetadata({
 });
 
 // WhatsApp configuration
-const WHATSAPP_NUMBER = "8801820037321";
-const WHATSAPP_DISPLAY = "+880 1820 037321";
+const WHATSAPP_NUMBER = "+8801977037321";
+const WHATSAPP_DISPLAY = "+880 1977 037321";
 const WHATSAPP_MESSAGE =
   "Hello .DevX, I would like to discuss a project.";
 
