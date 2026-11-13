@@ -2,6 +2,7 @@
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { projects } from "@/data/projects";
+import { blogs } from "@/data/blogs";
 
 export default function sitemap() {
   if (!siteConfig.url) return [];
@@ -24,6 +25,7 @@ export default function sitemap() {
     "/contact",
     "/services",
     "/work",
+    "/blog",
     "/privacy-policy",
     "/terms",
   ];
@@ -36,11 +38,18 @@ export default function sitemap() {
     (project) => `/work/${project.slug}`
   );
 
-  const allRoutes = [...new Set([
-    ...staticRoutes,
-    ...serviceRoutes,
-    ...projectRoutes,
-  ])];
+  const blogRoutes = blogs.map(
+    (blog) => `/blog/${blog.slug}`
+  );
+
+  const allRoutes = [
+    ...new Set([
+      ...staticRoutes,
+      ...serviceRoutes,
+      ...projectRoutes,
+      ...blogRoutes,
+    ]),
+  ];
 
   return allRoutes.map((route) => ({
     url: new URL(route, baseUrl).toString(),
@@ -49,7 +58,7 @@ export default function sitemap() {
     priority:
       route === ""
         ? 1
-        : route === "/services" || route === "/work"
+        : ["/services", "/work", "/blog"].includes(route)
           ? 0.9
           : 0.7,
   }));

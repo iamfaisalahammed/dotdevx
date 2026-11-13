@@ -1,12 +1,10 @@
-
 export const siteConfig = {
   name: ".DevX",
   shortName: ".DevX",
 
   description:
     ".DevX is a web development agency building modern, responsive, and high-performance websites for businesses in Bangladesh and worldwide.",
-
-  url: process.env.NEXT_PUBLIC_SITE_URL || "",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://dotdevx.com",
 
   language: "en",
   locale: "en_US",
@@ -24,16 +22,16 @@ export const siteConfig = {
   category: "Web Development Agency",
 
   contact: {
-    email: "",
+    email: "dotdevx@gmail.com",
     phone: "",
     whatsapp: "01977037321",
     location: "Bangladesh",
   },
 
   socialLinks: {
-    facebook: "",
+    facebook: "facebook.com/dotdevx",
     linkedin: "",
-    instagram: "",
-    github: "",
+    instagram: "instagram.com/dot_devx",
+    youtube: "",
   },
 };

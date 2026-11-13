@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { MessageCircleMore, X } from "lucide-react";
 
-const WHATSAPP_NUMBER = "8801820037321";
+const WHATSAPP_NUMBER = "8801977037321";
 
 const WhatsAppIcon = ({ className = "" }) => (
   <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden="true">

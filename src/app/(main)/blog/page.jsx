@@ -5,6 +5,9 @@ import {  ArrowUpRight } from "lucide-react";
 import { blogs } from "@/data/blogs";
 import { createMetadata } from "@/lib/seo";
 
+// The page is filtered by `?category=...` from local data, so it renders per-request.
+export const instant = false;
+
 export const metadata = createMetadata({
   title: "Blog",
   description:
