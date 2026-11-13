@@ -1,3 +1,4 @@
+
 import { createWorkersCacheConfig } from "@vinext/cloudflare/cache/config";
 import { bindings, defineConfig, defineWorker } from "cf/config";
 
@@ -18,6 +19,7 @@ export default defineConfig({
       ...cache.env,
       ASSETS: bindings.assets(),
       IMAGES: bindings.images(),
+      NEXT_PUBLIC_SITE_URL: bindings.text("https://dotdevx.com"),
     },
     domains: ["dotdevx.com", "www.dotdevx.com"],
   }),
