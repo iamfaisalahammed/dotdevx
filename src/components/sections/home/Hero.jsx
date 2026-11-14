@@ -10,20 +10,35 @@ import Container from "@/components/ui/Container";
 const ACCENT = "#E5252A";
 const ACCENT_SOFT = "#FF6B6F";
 
-/* ---------- প্রথম পেইন্টের পরে idle সময়ে ভারী অংশ চালু করার hook ---------- */
+/* ---------- পেজ load হওয়ার পরে idle সময়ে ভারী অংশ চালু করার hook ---------- */
 
-function useIdleReady(timeout = 600) {
+function useIdleReady(timeout = 1500) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    let id;
+    let idleId;
+    let timerId;
+
     const go = () => setReady(true);
-    if ("requestIdleCallback" in window) {
-      id = requestIdleCallback(go, { timeout });
-      return () => cancelIdleCallback(id);
+    const schedule = () => {
+      if ("requestIdleCallback" in window) {
+        idleId = requestIdleCallback(go, { timeout });
+      } else {
+        timerId = setTimeout(go, 400);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      schedule();
+    } else {
+      window.addEventListener("load", schedule, { once: true });
     }
-    id = setTimeout(go, 200);
-    return () => clearTimeout(id);
+
+    return () => {
+      window.removeEventListener("load", schedule);
+      if (idleId && "cancelIdleCallback" in window) cancelIdleCallback(idleId);
+      clearTimeout(timerId);
+    };
   }, [timeout]);
 
   return ready;
@@ -625,7 +640,11 @@ function FloatingSymbols() {
         <motion.span
           key={item.s}
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.1, 0], y: [0, -50, -100] }}
+          // transform স্ট্রিং ব্যবহার করায় animation browser-এর compositor-এ চলে
+          animate={{
+            opacity: [0, 0.1, 0],
+            transform: ["translateY(0px)", "translateY(-50px)", "translateY(-100px)"],
+          }}
           transition={{
             duration: item.dur,
             repeat: Infinity,
@@ -763,7 +782,11 @@ function ServiceMarquee() {
         className="relative bg-black/40 py-5 [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
       >
         <motion.div
-          animate={reduce ? undefined : { x: ["0%", "-50%"] }}
+          animate={
+            reduce
+              ? undefined
+              : { transform: ["translateX(0%)", "translateX(-50%)"] }
+          }
           transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
           className="flex w-max items-center will-change-transform"
         >
@@ -949,11 +972,17 @@ function RedCursor() {
   );
 }
 
+// প্রথম হেডলাইন প্রথম পেইন্টেই পুরোটা দেখা যাবে (SSR-এ ফাঁকা থাকবে না)
+const FIRST_TOTAL = headlines[0].first.length + headlines[0].second.length;
+// প্রথমবার পুরো লেখা এতক্ষণ স্থির থাকবে, তারপর টাইপ-ডিলিট শুরু হবে
+const FIRST_HOLD = 6000;
+
 function RotatingHeadline() {
   const reduce = useReducedMotion();
   const [i, setI] = useState(0);
-  const [typed, setTyped] = useState(0);
-  const [phase, setPhase] = useState("typing"); // typing | waiting | deleting
+  const [typed, setTyped] = useState(FIRST_TOTAL);
+  const [phase, setPhase] = useState("waiting"); // typing | waiting | deleting
+  const firstRound = useRef(true);
 
   const h = headlines[i];
   const firstLen = h.first.length;
@@ -970,7 +999,11 @@ function RotatingHeadline() {
         timer = setTimeout(() => setPhase("waiting"), 0);
       }
     } else if (phase === "waiting") {
-      timer = setTimeout(() => setPhase("deleting"), 2400);
+      const hold = firstRound.current ? FIRST_HOLD : 2400;
+      timer = setTimeout(() => {
+        firstRound.current = false;
+        setPhase("deleting");
+      }, hold);
     } else if (phase === "deleting") {
       if (typed > 0) {
         timer = setTimeout(() => setTyped((n) => Math.max(0, n - 1)), 38);
@@ -1030,8 +1063,8 @@ function RotatingHeadline() {
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  // ভারী canvas দুটো প্রথম পেইন্টের পরে চালু হবে
-  const ready = useIdleReady(600);
+  // ভারী অংশগুলো পেজ load হওয়ার পরে idle সময়ে চালু হবে
+  const ready = useIdleReady(1500);
 
   return (
     <section
@@ -1050,24 +1083,44 @@ export default function Hero() {
         }}
       />
 
-      {/* Nebula — blur filter বাদ, শুধু gradient (অনেক হালকা) */}
+      {/* Nebula — blur filter বাদ, শুধু gradient; transform স্ট্রিং দিয়ে compositor-এ চলে */}
       <motion.div
         aria-hidden="true"
-        animate={reduce ? undefined : { x: [0, -50, 0], y: [0, 30, 0], scale: [1, 1.08, 1] }}
+        animate={
+          reduce
+            ? undefined
+            : {
+                transform: [
+                  "translate(0px, 0px) scale(1)",
+                  "translate(-50px, 30px) scale(1.08)",
+                  "translate(0px, 0px) scale(1)",
+                ],
+              }
+        }
         transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
         className="pointer-events-none absolute -right-24 top-[4%] -z-10 h-[300px] w-[360px] rounded-full will-change-transform sm:h-[480px] sm:w-[640px]"
         style={{ background: "radial-gradient(circle, rgba(255,255,255,0.11), rgba(255,255,255,0.03) 50%, transparent 70%)" }}
       />
       <motion.div
         aria-hidden="true"
-        animate={reduce ? undefined : { x: [0, -30, 0], y: [0, 40, 0] }}
+        animate={
+          reduce
+            ? undefined
+            : {
+                transform: [
+                  "translate(0px, 0px)",
+                  "translate(-30px, 40px)",
+                  "translate(0px, 0px)",
+                ],
+              }
+        }
         transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
         className="pointer-events-none absolute right-[30%] top-[-12%] -z-10 h-[240px] w-[320px] rounded-full will-change-transform sm:h-[360px] sm:w-[520px]"
         style={{ background: "radial-gradient(circle, rgba(0,0,0,0.95), rgba(0,0,0,0.6) 45%, transparent 70%)" }}
       />
 
       {ready && <StarField />}
-      <FloatingSymbols />
+      {ready && <FloatingSymbols />}
       {ready && <CometCursor />}
 
       <div

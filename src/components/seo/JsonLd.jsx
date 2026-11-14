@@ -16,7 +16,7 @@ export default function JsonLd() {
         contactPoint: siteConfig.contact.whatsapp
           ? {
               "@type": "ContactPoint",
-              telephone: `+${siteConfig.contact.whatsapp}`,
+              telephone: siteConfig.contact.whatsapp,
               contactType: "customer service",
             }
           : undefined,
