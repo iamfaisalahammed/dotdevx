@@ -8,6 +8,7 @@ import Container from "@/components/ui/Container";
 
 import { projects } from "@/data/projects";
 import { createMetadata } from "@/lib/seo";
+import { siteConfig } from "@/config/site";
 
 export function generateStaticParams() {
   return projects.map((project) => ({
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }) {
 
   if (!project) {
     return {
-      title: "Project Not Found | .DevX",
+      title: `Project Not Found | ${siteConfig.name}`,
       description: "The requested project could not be found.",
       robots: {
         index: false,

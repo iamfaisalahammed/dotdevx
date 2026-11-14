@@ -1,7 +1,7 @@
-
 import { notFound } from "next/navigation";
 
 import { services } from "@/data/services";
+import { siteConfig } from "@/config/site";
 import ServiceDetails from "@/components/services/ServiceDetails";
 import { createMetadata } from "@/lib/seo";
 
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }) {
 
   if (!service) {
     return {
-      title: "Service Not Found | .DevX",
+      title: `Service Not Found | ${siteConfig.name}`,
       description: "The requested service could not be found.",
       robots: {
         index: false,
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }) {
 
   return createMetadata({
     title: `${service.title} Services`,
-    description: `${service.description} Explore professional ${service.title.toLowerCase()} services by .DevX for businesses in Bangladesh and worldwide.`,
+    description: `${service.description} Explore professional ${service.title.toLowerCase()} services by ${siteConfig.name} for businesses in Bangladesh and worldwide.`,
     path: `/services/${service.slug}`,
   });
 }

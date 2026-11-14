@@ -4,9 +4,10 @@ import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 
 import { blogs } from "@/data/blogs";
+import { siteConfig } from "@/config/site";
 import Container from "@/components/ui/Container";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com";
+const SITE_URL = (siteConfig.url || "https://dotdevx.com").replace(/\/+$/, "");
 
 // date স্ট্রিং থেকে ISO তারিখ, ভুল হলে undefined
 const toISO = (d) => {
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }) {
   const keywords = blog.seo?.keywords;
 
   const url = `${SITE_URL}/blog/${blog.slug}`;
-  const title = `${seoTitle} | .DevX`;
+  const title = `${seoTitle} | ${siteConfig.name}`;
   const image = absolute(blog.coverImage);
 
   return {
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       url,
-      siteName: ".DevX",
+      siteName: siteConfig.name,
       type: "article",
       publishedTime: toISO(blog.date),
       images: [
@@ -110,8 +111,8 @@ export default async function BlogPost({ params }) {
     image: absolute(blog.coverImage),
     datePublished: toISO(blog.date),
     mainEntityOfPage: `${SITE_URL}/blog/${blog.slug}`,
-    author: { "@type": "Person", name: blog.author || ".DevX Team" },
-    publisher: { "@type": "Organization", name: ".DevX" },
+    author: { "@type": "Person", name: blog.author || `${siteConfig.name} Team` },
+    publisher: { "@type": "Organization", name: siteConfig.name },
     ...(blog.seo?.keywords?.length
       ? { keywords: blog.seo.keywords.join(", ") }
       : {}),
