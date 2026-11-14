@@ -6,10 +6,10 @@ import Link from "next/link";
 export const metadata = createMetadata({
   title: "Terms and Conditions",
   description:
-    "Review the .DevX Terms and Conditions covering website usage, project agreements, pricing, payments, intellectual property, and third-party services.",
+    "Read the Dot DevX Terms and Conditions covering website usage, project agreements, pricing, payments, and intellectual property.",
   path: "/terms",
+  noIndex: true,
 });
-
 const sections = [
   {
     title: "Website Use",

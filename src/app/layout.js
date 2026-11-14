@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 
 import FloatingActions from "@/components/layout/FloatingActions";
+import JsonLd from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
 import { createMetadata } from "@/lib/seo";
 
@@ -43,6 +44,8 @@ export default function RootLayout({ children }) {
             title="Google Tag Manager"
           />
         </noscript>
+
+        <JsonLd />
 
         {children}
 

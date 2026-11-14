@@ -1,3 +1,4 @@
+
 import { siteConfig } from "@/config/site";
 
 export function createMetadata({
@@ -7,6 +8,7 @@ export function createMetadata({
   image = "/images/og-image.png",
   keywords,
   type = "website",
+  noIndex = false,
 }) {
   const baseUrl = siteConfig.url?.replace(/\/+$/, "");
   const normalizedPath = path.replace(/^\/+|\/+$/g, "");
@@ -40,10 +42,10 @@ export function createMetadata({
     ...(keywords?.length ? { keywords } : {}),
 
     robots: {
-      index: true,
+      index: !noIndex,
       follow: true,
       googleBot: {
-        index: true,
+        index: !noIndex,
         follow: true,
         "max-image-preview": "large",
         "max-snippet": -1,

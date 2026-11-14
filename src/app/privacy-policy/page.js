@@ -6,10 +6,10 @@ import Link from "next/link";
 export const metadata = createMetadata({
   title: "Privacy Policy",
   description:
-    "Read the .DevX Privacy Policy to understand how we handle personal information, contact details, and project inquiries shared through our website and communication channels.",
+    "Read the Dot DevX Privacy Policy to understand how we handle personal information and project inquiries.",
   path: "/privacy-policy",
+  noIndex: true,
 });
-
 const sections = [
   {
     title: "Information You Share",

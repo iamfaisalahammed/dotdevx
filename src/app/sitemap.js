@@ -26,8 +26,6 @@ export default function sitemap() {
     "/services",
     "/work",
     "/blog",
-    "/privacy-policy",
-    "/terms",
   ];
 
   const serviceRoutes = services.map(

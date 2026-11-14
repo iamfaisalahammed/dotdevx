@@ -30,8 +30,9 @@ export const siteConfig = {
 
   socialLinks: {
     facebook: "facebook.com/dotdevx",
-    linkedin: "",
+    linkedin: "linkedin.com/in/dotdevx",
     instagram: "instagram.com/dot_devx",
-    youtube: "",
+    youtube: "youtube.com/dotdevx",
+    x: "x.com/dotdevx",
   },
 };
