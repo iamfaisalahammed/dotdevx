@@ -2,33 +2,52 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import {
-  motion,
-  useReducedMotion,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 
 import Container from "@/components/ui/Container";
 
-
 const ACCENT = "#E5252A";
 const ACCENT_SOFT = "#FF6B6F";
 
+/* ---------- প্রথম পেইন্টের পরে idle সময়ে ভারী অংশ চালু করার hook ---------- */
 
+function useIdleReady(timeout = 600) {
+  const [ready, setReady] = useState(false);
 
-/* ---------- কোড টাইপিং-এর ডেটা (সাদা-ধূসরের সঙ্গে লালের মিশ্রণ) ---------- */
+  useEffect(() => {
+    let id;
+    const go = () => setReady(true);
+    if ("requestIdleCallback" in window) {
+      id = requestIdleCallback(go, { timeout });
+      return () => cancelIdleCallback(id);
+    }
+    id = setTimeout(go, 200);
+    return () => clearTimeout(id);
+  }, [timeout]);
+
+  return ready;
+}
+
+/* ---------- হেডলাইনের দুই সেট লেখা ---------- */
+
+const headlines = [
+  { first: "We Build.", second: "You Grow", dot: true },
+  { first: "Your Vision,", second: "Our Creation", dot: true },
+];
+
+/* ---------- কোড টাইপিং-এর ডেটা ---------- */
 
 const C = {
   dim: "text-white/30",
   mute: "text-white/55",
-  key: "text-[var(--accent-soft)]", // const, function, return
+  key: "text-[var(--accent-soft)]",
   name: "text-[#F5F7F6]",
   str: "text-white/85",
-  fn: "text-white", // ফাংশনের নাম
-  val: "text-[var(--accent)]", // true / মান
+  fn: "text-white",
+  val: "text-[var(--accent)]",
 };
 
-// L(["dim", "text"], ...) দিলে {t, c} অবজেক্টের array বানিয়ে দেয়
 const L = (...parts) => parts.map(([k, t]) => ({ t, c: C[k] }));
 
 // প্রতিটা snippet-এ ঠিক ৭ লাইন, যাতে প্যানেলের উচ্চতা কখনো না বদলায়
@@ -45,51 +64,49 @@ const snippets = [
       L(["mute", "};"]),
     ],
   },
-{
-  file: "launch.js",
-  lines: [
-    L(["dim", "// From idea to live website"]),
-    L(["key", "function "], ["fn", "launch"], ["mute", "(idea) {"]),
-    L(["key", "  return "], ["name", "plan"], ["mute", "(idea)"]),
-    L(["mute", "    ."], ["fn", "design"], ["mute", "()"]),
-    L(["mute", "    ."], ["fn", "develop"], ["mute", "()"]),
-    L(["mute", "    ."], ["fn", "optimize"], ["mute", "()"]),
-    L(["mute", "    ."], ["fn", "deploy"], ["mute", "(); "], ["dim", "// ready to grow"]),
-    L(["mute", "}"]),
-  ],
-},
-{
-  file: "services.js",
-  lines: [
-    L(["dim", "// What we create for you"]),
-    L(["key", "export const "], ["name", "services"], ["mute", " = ["]),
-    L(["str", '  "Business Websites"'], ["mute", ","]),
-    L(["str", '  "E-commerce Websites"'], ["mute", ","]),
-    L(["str", '  "Custom Web Solutions"'], ["mute", ","]),
-    L(["mute", "];"]),
-    L(["dim", ""]),
-  ],
-},{
-  file: "quality.js",
-  lines: [
-    L(["dim", "// Built with quality in mind"]),
-    L(["key", "const "], ["name", "quality"], ["mute", " = {"]),
-    L(["mute", "  performance: "], ["val", "true"], ["mute", ","]),
-    L(["mute", "  responsive: "], ["val", "true"], ["mute", ","]),
-    L(["mute", "  cleanCode: "], ["val", "true"], ["mute", ","]),
-    L(["mute", "  scalability: "], ["val", "true"], ["mute", ","]),
-    L(["mute", "};"]),
-  ],
-},
+  {
+    file: "launch.js",
+    lines: [
+      L(["dim", "// From idea to live website"]),
+      L(["key", "function "], ["fn", "launch"], ["mute", "(idea) {"]),
+      L(["key", "  return "], ["name", "plan"], ["mute", "(idea)"]),
+      L(["mute", "    ."], ["fn", "design"], ["mute", "()"]),
+      L(["mute", "    ."], ["fn", "develop"], ["mute", "()"]),
+      L(["mute", "    ."], ["fn", "optimize"], ["mute", "()"]),
+      L(["mute", "    ."], ["fn", "deploy"], ["mute", "(); "], ["dim", "// ready to grow"]),
+    ],
+  },
+  {
+    file: "services.js",
+    lines: [
+      L(["dim", "// What we create for you"]),
+      L(["key", "export const "], ["name", "services"], ["mute", " = ["]),
+      L(["str", '  "Business Websites"'], ["mute", ","]),
+      L(["str", '  "E-commerce Websites"'], ["mute", ","]),
+      L(["str", '  "Custom Web Solutions"'], ["mute", ","]),
+      L(["mute", "];"]),
+      L(["dim", ""]),
+    ],
+  },
+  {
+    file: "quality.js",
+    lines: [
+      L(["dim", "// Built with quality in mind"]),
+      L(["key", "const "], ["name", "quality"], ["mute", " = {"]),
+      L(["mute", "  performance: "], ["val", "true"], ["mute", ","]),
+      L(["mute", "  responsive: "], ["val", "true"], ["mute", ","]),
+      L(["mute", "  cleanCode: "], ["val", "true"], ["mute", ","]),
+      L(["mute", "  scalability: "], ["val", "true"], ["mute", ","]),
+      L(["mute", "};"]),
+    ],
+  },
 ];
 
-function getLineLengths(snippet) {
-  return snippet.lines.map((line) =>
-    line.reduce((sum, part) => sum + part.t.length, 0)
-  );
-}
+// snippet-গুলো স্থির, তাই দৈর্ঘ্য একবারই হিসাব করে রাখছি
+const snippetLengths = snippets.map((s) =>
+  s.lines.map((line) => line.reduce((sum, part) => sum + part.t.length, 0))
+);
 
-// লাইনের প্রথম `count` টা অক্ষর রেখে বাকিটা কেটে দেয়
 function sliceLine(line, count) {
   let remaining = count;
   const out = [];
@@ -101,7 +118,7 @@ function sliceLine(line, count) {
   return out;
 }
 
-/* ---------- কোড এডিটর — গ্যালাক্সির নিচে, নিজের জায়গায়, স্থির ---------- */
+/* ---------- কোড এডিটর ---------- */
 
 function CodePanel() {
   const [index, setIndex] = useState(0);
@@ -109,7 +126,7 @@ function CodePanel() {
   const [phase, setPhase] = useState("typing"); // typing | waiting | deleting
 
   const snippet = snippets[index];
-  const lineLengths = getLineLengths(snippet);
+  const lineLengths = snippetLengths[index];
   const totalChars = lineLengths.reduce((a, b) => a + b, 0);
 
   useEffect(() => {
@@ -125,7 +142,6 @@ function CodePanel() {
       timer = setTimeout(() => setPhase("deleting"), 2500);
     } else if (phase === "deleting") {
       if (typed > 0) {
-        // মোছার সময় একসাথে তিনটা করে যাবে, নাহলে অনেক ধীর লাগে
         timer = setTimeout(() => setTyped((n) => Math.max(0, n - 3)), 14);
       } else {
         timer = setTimeout(() => {
@@ -148,14 +164,12 @@ function CodePanel() {
     firstIncomplete === -1 ? snippet.lines.length - 1 : firstIncomplete;
 
   return (
-    <div className="relative z-10 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0A0B0E]/85 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-md">
-      {/* ওপরের লাল আলোর রেখা */}
+    <div className="relative z-10 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0A0B0E]/95 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)]">
       <span
         aria-hidden="true"
         className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent"
       />
 
-      {/* ফাইলের নাম বার — উচ্চতা fix */}
       <div className="flex h-11 items-center gap-2 border-b border-white/[0.06] px-5">
         <span className="h-2.5 w-2.5 rounded-full bg-[var(--accent)]" />
         <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
@@ -165,7 +179,7 @@ function CodePanel() {
         </span>
       </div>
 
-      {/* ৭ লাইন × 32px + padding 40px = 264px fix উচ্চতা, তাই কখনো লাফাবে না */}
+      {/* ৭ লাইন × 32px + padding 40px = 264px fix উচ্চতা */}
       <div className="h-[264px] overflow-hidden px-6 py-5 font-mono text-[12px] min-[400px]:text-[13px] sm:text-[14px]">
         {snippet.lines.map((line, i) => (
           <div key={`${index}-${i}`} className="flex h-8 items-center">
@@ -188,8 +202,6 @@ function CodePanel() {
     </div>
   );
 }
-
-
 
 const CONSTELLATIONS = [
   {
@@ -268,7 +280,6 @@ const CONSTELLATIONS = [
   },
 ];
 
-// নামের অবস্থান: [তারা থেকে dx, dy, text-align]
 const LABEL_POS = {
   l: [-9, 0, "right"],
   r: [9, 0, "left"],
@@ -280,7 +291,7 @@ const LABEL_POS = {
   rb: [8, 9, "left"],
 };
 
-/* ---------- পুরো hero-র তারা ভরা আকাশ (সাদা-কালো, মাউসে parallax) ---------- */
+/* ---------- তারা ভরা আকাশ ---------- */
 
 function StarField() {
   const canvasRef = useRef(null);
@@ -290,6 +301,7 @@ function StarField() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const parent = canvas.parentElement;
+    if (!ctx || !parent) return;
 
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -302,8 +314,9 @@ function StarField() {
     let frameId = 0;
     let meteors = [];
     let nextShot = 1800;
+    let resizeTimer;
+    let last = 0;
 
-    // নতুন একটা ধূমকেতু আকাশের ওপর থেকে নামবে
     function spawnMeteor() {
       const dir = Math.random() > 0.5 ? 1 : -1;
       const speed = 8 + Math.random() * 5;
@@ -330,11 +343,12 @@ function StarField() {
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // মোবাইলে তারা কম, ফোন যেন গরম না হয়
-      const density = width < 640 ? 5200 : 3400;
-      const count = Math.min(400, Math.floor((width * height) / density));
+      // তারা কম রাখা হয়েছে, যাতে হালকা চলে
+      const density = width < 640 ? 9000 : 6500;
+      const count = Math.min(170, Math.floor((width * height) / density));
       stars = Array.from({ length: count }, () => {
-        const depth = Math.random(); // 0 = দূরে, 1 = কাছে
+        const depth = Math.random();
+        const shade = 200 + Math.floor(Math.random() * 56);
         return {
           x: Math.random() * width,
           y: Math.random() * height,
@@ -344,10 +358,10 @@ function StarField() {
           speed: 0.6 + Math.random() * 1.8,
           phase: Math.random() * Math.PI * 2,
           drift: 0.012 + depth * 0.045,
-          shade: 200 + Math.floor(Math.random() * 56), // ধূসর থেকে সাদা
+          rgb: `${shade},${shade},${shade}`, // আগে থেকেই তৈরি, প্রতি ফ্রেমে বানাতে হবে না
         };
       });
-      // আসল নক্ষত্রমণ্ডল — শুধু বড় স্ক্রিনে (মাউস থাকে যেখানে)
+
       const k = Math.min(1.15, Math.max(0.8, width / 1280));
       constellations =
         width < 1024
@@ -387,35 +401,43 @@ function StarField() {
     }
 
     function draw(t) {
+      // ৩০fps-এ সীমিত, কিন্তু গতি আগের মতোই থাকবে
+      let step = 1;
+      if (!reduceMotion) {
+        if (t - last < 30) {
+          frameId = requestAnimationFrame(draw);
+          return;
+        }
+        step = Math.min(3, (t - last) / 16.67);
+        last = t;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
-      // মাউসের অবস্থান ধীরে ধীরে অনুসরণ করবে
-      mouse.x += (mouse.tx - mouse.x) * 0.05;
-      mouse.y += (mouse.ty - mouse.y) * 0.05;
+      mouse.x += (mouse.tx - mouse.x) * 0.05 * step;
+      mouse.y += (mouse.ty - mouse.y) * 0.05 * step;
 
       for (const s of stars) {
         if (!reduceMotion) {
-          s.x -= s.drift;
+          s.x -= s.drift * step;
           if (s.x < -2) s.x = width + 2;
         }
         const px = s.x + mouse.x * s.depth * 24;
         const py = s.y + mouse.y * s.depth * 16;
         const tw = reduceMotion ? 1 : 0.55 + 0.45 * Math.sin(t * 0.001 * s.speed + s.phase);
-        // মাউসের কাছের তারাগুলো বেশি উজ্জ্বল হবে
         const near = Math.max(0, 1 - Math.hypot(px - mouse.px, py - mouse.py) / 240);
         const a = Math.min(1, s.base * tw + near * near * 0.7);
-        const rgb = `${s.shade},${s.shade},${s.shade}`;
 
-        ctx.fillStyle = `rgba(${rgb},${a})`;
+        ctx.fillStyle = `rgba(${s.rgb},${a})`;
         if (s.r < 0.9) {
           ctx.fillRect(px, py, s.r * 1.6, s.r * 1.6);
         } else {
           ctx.beginPath();
           ctx.arc(px, py, s.r, 0, Math.PI * 2);
           ctx.fill();
-          // বড় তারার চারপাশে হালকা আভা
-          if (s.r > 1.2) {
-            ctx.fillStyle = `rgba(${rgb},${a * 0.1})`;
+          // শুধু বড় তারার চারপাশে আভা
+          if (s.r > 1.4) {
+            ctx.fillStyle = `rgba(${s.rgb},${a * 0.1})`;
             ctx.beginPath();
             ctx.arc(px, py, s.r * 4.5, 0, Math.PI * 2);
             ctx.fill();
@@ -423,7 +445,6 @@ function StarField() {
         }
       }
 
-      // আসল নক্ষত্রমণ্ডল: তারাগুলো সবসময় থাকে, মাউস কাছে গেলে হালকা রেখা ও আসল নাম ফুটে ওঠে
       const cox = mouse.x * 14;
       const coy = mouse.y * 9;
       ctx.letterSpacing = "1px";
@@ -433,7 +454,7 @@ function StarField() {
           mouse.px < c.maxX + cox + 70 &&
           mouse.py > c.minY + coy - 70 &&
           mouse.py < c.maxY + coy + 70;
-        c.hover += ((near ? 1 : 0) - c.hover) * 0.07;
+        c.hover += ((near ? 1 : 0) - c.hover) * 0.07 * step;
         const h = c.hover;
 
         if (h > 0.02) {
@@ -488,9 +509,7 @@ function StarField() {
         }
       }
 
-      // মাঝে মাঝে একটা উল্কা
       if (!reduceMotion) {
-        // ধূমকেতু পড়ছে — মাথা সাদা, লেজ লালে মিলিয়ে যায়
         if (t > nextShot) {
           spawnMeteor();
           if (Math.random() < 0.25) spawnMeteor();
@@ -498,9 +517,9 @@ function StarField() {
         }
         meteors = meteors.filter((m) => m.life <= m.maxLife);
         for (const m of meteors) {
-          m.x += m.vx;
-          m.y += m.vy;
-          m.life += 1;
+          m.x += m.vx * step;
+          m.y += m.vy * step;
+          m.life += step;
           const fade = Math.min(1, m.life / 8) * Math.max(0, 1 - m.life / m.maxLife);
           const len = Math.hypot(m.vx, m.vy);
           const ex = m.x - (m.vx / len) * m.tail;
@@ -525,7 +544,6 @@ function StarField() {
           ctx.arc(m.x, m.y, 1.8, 0, Math.PI * 2);
           ctx.fill();
         }
-
       }
 
       if (!reduceMotion) frameId = requestAnimationFrame(draw);
@@ -545,7 +563,13 @@ function StarField() {
       mouse.py = -9999;
     }
 
-    // hero স্ক্রিনের বাইরে গেলে animation থামিয়ে দিচ্ছি
+    // resize শেষ হওয়ার পরে একবারই setup চলবে
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(setup, 150);
+    }
+
+    // hero স্ক্রিনের বাইরে গেলে animation থামবে
     const io = new IntersectionObserver(([entry]) => {
       if (reduceMotion) return;
       if (entry.isIntersecting) {
@@ -560,14 +584,15 @@ function StarField() {
     io.observe(canvas);
     parent.addEventListener("pointermove", onMove);
     parent.addEventListener("pointerleave", onLeave);
-    window.addEventListener("resize", setup);
+    window.addEventListener("resize", onResize);
 
     return () => {
+      clearTimeout(resizeTimer);
       cancelAnimationFrame(frameId);
       io.disconnect();
       parent.removeEventListener("pointermove", onMove);
       parent.removeEventListener("pointerleave", onLeave);
-      window.removeEventListener("resize", setup);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
@@ -582,7 +607,6 @@ function StarField() {
 
 /* ---------- ভেসে ওঠা চিহ্ন ---------- */
 
-// position fix করা, Math.random দিলে hydration error আসে
 const floatingSymbols = [
   { s: "</>", left: "6%", top: "18%", delay: 0, dur: 9 },
   { s: "{ }", left: "44%", top: "8%", delay: 1.5, dur: 11 },
@@ -609,7 +633,7 @@ function FloatingSymbols() {
             ease: "easeInOut",
           }}
           style={{ left: item.left, top: item.top }}
-          className="absolute font-mono text-lg font-semibold text-white"
+          className="absolute font-mono text-lg font-semibold text-white will-change-transform"
         >
           {item.s}
         </motion.span>
@@ -618,13 +642,12 @@ function FloatingSymbols() {
   );
 }
 
-/* ---------- কোড এডিটরের পাশে ফিচার ট্যাগ (বাঁকা রেখার ওপর) ---------- */
+/* ---------- ফিচার ট্যাগ ---------- */
 
 const chips = [
-  // top/left = বাঁকা রেখার ওপর বিন্দু (container-এর শতাংশে)
- { label: "Modern Design", top: "10%", left: "25%", delay: 0 },
-{ label: "Reliable", top: "50%", left: "58%", delay: 0.15 },
-{ label: "User Friendly", top: "90%", left: "25%", delay: 0.3 },
+  { label: "Modern Design", top: "10%", left: "25%", delay: 0 },
+  { label: "Reliable", top: "50%", left: "58%", delay: 0.15 },
+  { label: "User Friendly", top: "90%", left: "25%", delay: 0.3 },
 ];
 
 function Chip({ label, delay, reduce }) {
@@ -641,7 +664,7 @@ function Chip({ label, delay, reduce }) {
         scale: { duration: 0.5, delay: 0.7 + delay },
         y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay },
       }}
-      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-[#0A0B0E]/80 px-3.5 py-2 text-[11px] font-medium text-white/80 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md sm:text-xs"
+      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-[#0A0B0E]/95 px-3.5 py-2 text-[11px] font-medium text-white/80 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.9)] sm:text-xs"
     >
       <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
       {label}
@@ -649,14 +672,13 @@ function Chip({ label, delay, reduce }) {
   );
 }
 
-/* ---------- ডান পাশের ভিজ্যুয়াল: কোড এডিটর ও পাশে বাঁকা ফিচার ---------- */
+/* ---------- ডান পাশের ভিজ্যুয়াল ---------- */
 
 function HeroVisual() {
   const reduce = useReducedMotion();
 
   return (
     <div className="relative mx-auto w-full max-w-[700px] lg:ml-auto lg:mr-0">
-      {/* View Details */}
       <Link
         href="/work"
         className="group mb-5 ml-auto flex w-fit items-center gap-3 text-sm font-semibold text-white"
@@ -667,7 +689,6 @@ function HeroVisual() {
       </Link>
 
       <div className="flex flex-col gap-5 md:flex-row md:items-stretch md:gap-0">
-        {/* কোড এডিটর */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -677,14 +698,14 @@ function HeroVisual() {
           <CodePanel />
         </motion.div>
 
-        {/* মোবাইল/ট্যাবলেট: এডিটরের নিচে সারি */}
+        {/* মোবাইল/ট্যাবলেট */}
         <div className="flex flex-wrap items-center justify-center gap-2.5 md:hidden">
           {chips.map((c) => (
             <Chip key={c.label} label={c.label} delay={c.delay} reduce={reduce} />
           ))}
         </div>
 
-        {/* ডেস্কটপ: এডিটরের ডান পাশে বাঁকা (arc) আকারে */}
+        {/* ডেস্কটপ: বাঁকা (arc) আকারে */}
         <div className="relative z-20 -ml-3 hidden w-[140px] shrink-0 md:block">
           <svg
             aria-hidden="true"
@@ -729,24 +750,22 @@ const marqueeItems = [
 
 function ServiceMarquee() {
   const reduce = useReducedMotion();
-  // দুইবার বসিয়েছি যাতে -50% গেলে ঠিক শুরুতে ফিরে আসে, কোনো jump না হয়
   const list = [...marqueeItems, ...marqueeItems];
 
   return (
     <div className="relative">
-      {/* লাল রঙের পাতলা বিভাজক */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/60 to-transparent"
       />
       <div
         aria-hidden="true"
-        className="relative bg-black/30 py-5 backdrop-blur-sm [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
+        className="relative bg-black/40 py-5 [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]"
       >
         <motion.div
           animate={reduce ? undefined : { x: ["0%", "-50%"] }}
           transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-          className="flex w-max items-center"
+          className="flex w-max items-center will-change-transform"
         >
           {list.map((item, i) => (
             <span key={i} className="flex items-center">
@@ -762,7 +781,7 @@ function ServiceMarquee() {
   );
 }
 
-/* ---------- কমেট কার্সর — মাউস একটা ছোট তারা, পেছনে সাদা থেকে লালে মেলানো লেজ ---------- */
+/* ---------- কমেট কার্সর ---------- */
 
 function CometCursor() {
   const canvasRef = useRef(null);
@@ -771,10 +790,12 @@ function CometCursor() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // মাউস নেই এমন ডিভাইসে (ফোন/ট্যাবলেট) চালানোর দরকার নেই
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const ctx = canvas.getContext("2d");
     const parent = canvas.parentElement;
+    if (!ctx || !parent) return;
 
-    // লেজের প্রতিটা বিন্দু এত ms টিকে থাকে। মাউস যত জোরে নড়ে, বিন্দুগুলো তত দূরে দূরে পড়ে — তাই লেজ লম্বা হয়
     const LIFE = 520;
     const WHITE = [255, 255, 255];
     const SOFT = [255, 107, 111];
@@ -820,7 +841,6 @@ function CometCursor() {
       }
       while (pts.length && now - pts[0].t > LIFE) pts.shift();
 
-      // লেজ: নতুন অংশ সাদা ও মোটা, পুরোনো অংশ লাল ও সরু, শেষে মিলিয়ে যায়
       ctx.lineCap = "butt";
       for (let i = 1; i < pts.length; i++) {
         const p0 = pts[i - 1];
@@ -830,7 +850,6 @@ function CometCursor() {
         const c = k > 0.55 ? mix(SOFT, WHITE, (k - 0.55) / 0.45) : mix(RED, SOFT, k / 0.55);
         const rgb = `${c[0] | 0},${c[1] | 0},${c[2] | 0}`;
 
-        // মূল লেজ
         ctx.strokeStyle = `rgba(${rgb},${Math.pow(k, 1.3) * 0.9})`;
         ctx.lineWidth = 0.6 + k * 3.4;
         ctx.beginPath();
@@ -839,7 +858,6 @@ function CometCursor() {
         ctx.stroke();
       }
 
-      // মাথা: ছোট উজ্জ্বল তারা
       if (head.a > 0.01) {
         const { x, y, a } = head;
         const pulse = 6 + Math.sin(now * 0.006) * 1.5;
@@ -869,7 +887,6 @@ function CometCursor() {
         ctx.fill();
       }
 
-      // মাউস hero-র ভেতরে থাকলে বা লেজ বাকি থাকলে চলবে, নাহলে থামবে
       if (head.on || head.a > 0.01 || pts.length) {
         frameId = requestAnimationFrame(frame);
       } else {
@@ -887,7 +904,7 @@ function CometCursor() {
         head.y = head.ty;
         head.on = true;
         pts.length = 0;
-        parent.style.cursor = "none"; // আসল কার্সরের বদলে তারাটাই দেখা যাবে (লিংকে হাতের চিহ্ন থাকবে)
+        parent.style.cursor = "none";
       }
       if (!frameId) frameId = requestAnimationFrame(frame);
     }
@@ -921,16 +938,100 @@ function CometCursor() {
   );
 }
 
-/* ---------- মূল Hero ---------- */
+/* ---------- হেডলাইন: টাইপ হবে → মুছবে → পরের লেখা টাইপ হবে (লাল কার্সর) ---------- */
 
-// হেডলাইনের শব্দগুলো নিচ থেকে উঠে আসবে
-const lineVariant = {
-  hidden: { y: "110%", rotate: 4 },
-  show: { y: "0%", rotate: 0 },
-};
+function RedCursor() {
+  return (
+    <span
+      aria-hidden="true"
+      className="ml-1 inline-block h-[0.82em] w-[3px] animate-pulse bg-[var(--accent)] align-middle sm:w-[4px]"
+    />
+  );
+}
+
+function RotatingHeadline() {
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+  const [typed, setTyped] = useState(0);
+  const [phase, setPhase] = useState("typing"); // typing | waiting | deleting
+
+  const h = headlines[i];
+  const firstLen = h.first.length;
+  const total = firstLen + h.second.length;
+
+  useEffect(() => {
+    if (reduce) return;
+    let timer;
+
+    if (phase === "typing") {
+      if (typed < total) {
+        timer = setTimeout(() => setTyped((n) => n + 1), 80);
+      } else {
+        timer = setTimeout(() => setPhase("waiting"), 0);
+      }
+    } else if (phase === "waiting") {
+      timer = setTimeout(() => setPhase("deleting"), 2400);
+    } else if (phase === "deleting") {
+      if (typed > 0) {
+        timer = setTimeout(() => setTyped((n) => Math.max(0, n - 1)), 38);
+      } else {
+        timer = setTimeout(() => {
+          setI((n) => (n + 1) % headlines.length);
+          setPhase("typing");
+        }, 350);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [typed, phase, total, reduce]);
+
+  const count = reduce ? total : typed;
+  const firstShown = h.first.slice(0, Math.min(count, firstLen));
+  const secondShown = h.second.slice(0, Math.max(0, count - firstLen));
+  const cursorOnSecond = count > firstLen;
+  const secondDone = secondShown.length === h.second.length;
+
+  return (
+    <h1
+      aria-label="We Build. You Grow. Your Vision, Our Creation."
+      className="mt-6 text-[2.3rem] font-extrabold leading-[1.05] tracking-[-0.03em] min-[400px]:text-[2.6rem] sm:mt-8 sm:text-6xl"
+    >
+      <span className="block pb-2">
+        <span className="whitespace-nowrap text-[#F5F7F6]">
+          {"\u200B"}
+          {firstShown}
+          {!reduce && !cursorOnSecond && <RedCursor />}
+        </span>
+      </span>
+      <span className="block pb-2">
+        <span className="whitespace-nowrap">
+          {"\u200B"}
+          <motion.span
+            animate={reduce ? undefined : { backgroundPosition: ["200% 0", "-100% 0"] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage: `linear-gradient(100deg, #A7B0AC 40%, ${ACCENT_SOFT} 50%, #A7B0AC 60%)`,
+              backgroundSize: "200% 100%",
+              WebkitBackgroundClip: "text",
+            }}
+          >
+            {secondShown}
+          </motion.span>
+          {h.dot && secondDone && <span className="text-[var(--accent)]">.</span>}
+          {!reduce && cursorOnSecond && <RedCursor />}
+        </span>
+      </span>
+    </h1>
+  );
+}
+
+/* ---------- মূল Hero ---------- */
 
 export default function Hero() {
   const reduce = useReducedMotion();
+  // ভারী canvas দুটো প্রথম পেইন্টের পরে চালু হবে
+  const ready = useIdleReady(600);
 
   return (
     <section
@@ -940,7 +1041,6 @@ export default function Hero() {
         "--accent-soft": ACCENT_SOFT,
       }}
     >
-      {/* আগের মতোই subtle dark background ও soft glow */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-20"
@@ -950,26 +1050,26 @@ export default function Hero() {
         }}
       />
 
-      {/* Nebula — ধীরে ভাসমান সাদা-ধূসর মেঘ */}
+      {/* Nebula — blur filter বাদ, শুধু gradient (অনেক হালকা) */}
       <motion.div
         aria-hidden="true"
         animate={reduce ? undefined : { x: [0, -50, 0], y: [0, 30, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute -right-24 top-[4%] -z-10 h-[300px] w-[360px] rounded-full blur-[100px] sm:h-[480px] sm:w-[640px] sm:blur-[140px]"
-        style={{ background: "radial-gradient(circle, rgba(255,255,255,0.11), rgba(255,255,255,0.03) 60%, transparent 75%)" }}
+        className="pointer-events-none absolute -right-24 top-[4%] -z-10 h-[300px] w-[360px] rounded-full will-change-transform sm:h-[480px] sm:w-[640px]"
+        style={{ background: "radial-gradient(circle, rgba(255,255,255,0.11), rgba(255,255,255,0.03) 50%, transparent 70%)" }}
       />
       <motion.div
         aria-hidden="true"
         animate={reduce ? undefined : { x: [0, -30, 0], y: [0, 40, 0] }}
         transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute right-[30%] top-[-12%] -z-10 h-[240px] w-[320px] rounded-full bg-black blur-[100px] sm:h-[360px] sm:w-[520px] sm:blur-[110px]"
+        className="pointer-events-none absolute right-[30%] top-[-12%] -z-10 h-[240px] w-[320px] rounded-full will-change-transform sm:h-[360px] sm:w-[520px]"
+        style={{ background: "radial-gradient(circle, rgba(0,0,0,0.95), rgba(0,0,0,0.6) 45%, transparent 70%)" }}
       />
 
-      <StarField />
+      {ready && <StarField />}
       <FloatingSymbols />
-      <CometCursor />
+      {ready && <CometCursor />}
 
-      {/* ধারের vignette — মাঝখানে দৃষ্টি টানে */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
@@ -999,13 +1099,12 @@ export default function Hero() {
       </div>
 
       <Container className="grid items-center gap-12 py-14 sm:gap-14 sm:py-20 lg:min-h-[760px] lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:py-12 lg:-translate-y-22">
-        {/* লেখার অংশ — সব স্ক্রিনেই বামে ও ওপরে */}
         <div className="order-1 flex flex-col items-start text-left xl:pl-10">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#A7B0AC] backdrop-blur-md sm:text-[13px]"
+            className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#A7B0AC] sm:text-[13px]"
           >
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-50" />
@@ -1014,45 +1113,7 @@ export default function Hero() {
             <span>Specialized Services</span>
           </motion.div>
 
-          {/* হেডলাইন: প্রতিটা লাইন overflow-hidden বক্সের ভেতর থেকে উঠে আসে */}
-          <motion.h1
-            initial="hidden"
-            animate="show"
-            transition={{ staggerChildren: 0.16, delayChildren: 0.25 }}
-            className="mt-6 text-[2.6rem] font-extrabold leading-[1.05] tracking-[-0.03em] min-[400px]:text-5xl sm:mt-8 sm:text-6xl lg:text-7xl"
-          >
-            <span className="block overflow-hidden pb-2">
-              <motion.span
-                variants={lineVariant}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block origin-bottom-left text-[#F5F7F6]"
-              >
-                We Build.
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden pb-2">
-              <motion.span
-                variants={lineVariant}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block origin-bottom-left"
-              >
-                {/* "You Grow" এর ওপর দিয়ে আলো বয়ে যাবে */}
-                <motion.span
-                  animate={reduce ? undefined : { backgroundPosition: ["200% 0", "-100% 0"] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 1.5 }}
-                  className="bg-clip-text text-transparent"
-                  style={{
-                    backgroundImage: `linear-gradient(100deg, #A7B0AC 40%, ${ACCENT_SOFT} 50%, #A7B0AC 60%)`,
-                    backgroundSize: "200% 100%",
-                    WebkitBackgroundClip: "text",
-                  }}
-                >
-                  You Grow
-                </motion.span>
-                <span className="text-[var(--accent)]">.</span>
-              </motion.span>
-            </span>
-          </motion.h1>
+          <RotatingHeadline />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -1064,7 +1125,6 @@ export default function Hero() {
             businesses build trust, reach more customers, and grow online.
           </motion.p>
 
-          {/* বাটন */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1075,7 +1135,6 @@ export default function Hero() {
               href="/contact"
               className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[var(--accent)] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_-10px_var(--accent)] ring-1 ring-white/15 transition-all duration-300 hover:shadow-[0_12px_40px_-8px_var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
-              {/* hover করলে ওপর দিয়ে একটা আলো সরে যাবে */}
               <span
                 aria-hidden="true"
                 className="absolute inset-y-0 -left-full w-1/2 -skew-x-12 bg-white/25 transition-all duration-700 group-hover:left-[150%]"
@@ -1097,7 +1156,6 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* ভিজ্যুয়াল — মোবাইলে নিচে, ডেস্কটপে ডানে */}
         <div className="order-2">
           <HeroVisual />
         </div>
