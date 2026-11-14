@@ -135,7 +135,7 @@ function sliceLine(line, count) {
 
 /* ---------- কোড এডিটর ---------- */
 
-function CodePanel() {
+function CodePanel({ active }) {
   const [index, setIndex] = useState(0);
   const [typed, setTyped] = useState(0);
   const [phase, setPhase] = useState("typing"); // typing | waiting | deleting
@@ -145,6 +145,8 @@ function CodePanel() {
   const totalChars = lineLengths.reduce((a, b) => a + b, 0);
 
   useEffect(() => {
+    // page load-এর আগে টাইপিং শুরু হবে না
+    if (!active) return;
     let timer;
 
     if (phase === "typing") {
@@ -167,7 +169,7 @@ function CodePanel() {
     }
 
     return () => clearTimeout(timer);
-  }, [typed, phase, totalChars]);
+  }, [typed, phase, totalChars, active]);
 
   const visible = lineLengths.map((len, i) => {
     const before = lineLengths.slice(0, i).reduce((a, b) => a + b, 0);
@@ -312,6 +314,7 @@ function StarField() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    if (window.innerWidth < 768) return; // মোবাইলে canvas চালাবে না
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -693,7 +696,7 @@ function Chip({ label, delay, reduce }) {
 
 /* ---------- ডান পাশের ভিজ্যুয়াল ---------- */
 
-function HeroVisual() {
+function HeroVisual({ active }) {
   const reduce = useReducedMotion();
 
   return (
@@ -714,7 +717,7 @@ function HeroVisual() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="relative z-10 min-w-0 flex-1"
         >
-          <CodePanel />
+          <CodePanel active={active} />
         </motion.div>
 
         {/* মোবাইল/ট্যাবলেট */}
@@ -1083,7 +1086,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Nebula — blur filter বাদ, শুধু gradient; transform স্ট্রিং দিয়ে compositor-এ চলে */}
+      {/* Nebula — মোবাইলে লুকানো (hidden sm:block), বড় gradient layer-এর paint খরচ কমাতে */}
       <motion.div
         aria-hidden="true"
         animate={
@@ -1098,7 +1101,7 @@ export default function Hero() {
               }
         }
         transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute -right-24 top-[4%] -z-10 h-[300px] w-[360px] rounded-full will-change-transform sm:h-[480px] sm:w-[640px]"
+        className="hidden sm:block pointer-events-none absolute -right-24 top-[4%] -z-10 h-[300px] w-[360px] rounded-full will-change-transform sm:h-[480px] sm:w-[640px]"
         style={{ background: "radial-gradient(circle, rgba(255,255,255,0.11), rgba(255,255,255,0.03) 50%, transparent 70%)" }}
       />
       <motion.div
@@ -1115,7 +1118,7 @@ export default function Hero() {
               }
         }
         transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute right-[30%] top-[-12%] -z-10 h-[240px] w-[320px] rounded-full will-change-transform sm:h-[360px] sm:w-[520px]"
+        className="hidden sm:block pointer-events-none absolute right-[30%] top-[-12%] -z-10 h-[240px] w-[320px] rounded-full will-change-transform sm:h-[360px] sm:w-[520px]"
         style={{ background: "radial-gradient(circle, rgba(0,0,0,0.95), rgba(0,0,0,0.6) 45%, transparent 70%)" }}
       />
 
@@ -1168,9 +1171,10 @@ export default function Hero() {
 
           <RotatingHeadline />
 
+          {/* opacity: 0 সরানো হয়েছে, যাতে প্রথম পেইন্টেই লেখা দেখা যায় */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 20 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.6, delay: 0.9 }}
             className="mt-6 max-w-md text-base leading-8 text-[#A7B0AC] sm:mt-7 sm:text-lg"
           >
@@ -1179,8 +1183,8 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 20 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.6, delay: 1.1 }}
             className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-5 sm:mt-10"
           >
@@ -1210,7 +1214,7 @@ export default function Hero() {
         </div>
 
         <div className="order-2">
-          <HeroVisual />
+          <HeroVisual active={ready} />
         </div>
       </Container>
       <ServiceMarquee />
